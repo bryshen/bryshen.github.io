@@ -1,0 +1,243 @@
+@import url(//fonts.googleapis.com/css?family=Luckiest+Guy);
+
+body {
+  background-color: orange;
+  background-image: url('https://static.wikia.nocookie.net/fortnite/images/2/2a/Legendary_-_Rarity_-_Fortnite.png');
+  background-size: cover;
+}
+
+div {
+  /*user-select: none;*/
+  user-select: none;
+}
+
+img {
+  pointer-events: none;
+
+}
+
+.map {
+  left: 0px;
+  position: relative;
+  width: 961px;
+  transition: all 5s ease;
+  /*animation: slideshow 120s linear infinite; */
+}
+
+.visual-container {
+  background-color: #031529;
+  position: absolute;
+  left: 5px;
+  top: 30px;
+  height: 145px;
+  width: 400px;
+  border-radius: 5px;
+  z-index: 5;
+  overflow: hidden;
+
+}
+
+.puzzle-container {
+  background-image: url('https://static.wikia.nocookie.net/fortnite/images/4/47/Epic_-_Rarity_-_Fortnite.png');
+  background-size: cover;
+
+  position: absolute;
+  left: 5px;
+  top: 295px;
+  height: 400px;
+  width: 400px;
+  border-radius: 25px;
+  z-index: 10;
+  overflow: hidden;
+
+}
+
+.selectTile {
+  filter: drop-shadow(5px 5px 5px #222);
+
+  position: absolute;
+  transition: all 0.5s ease;
+  border-radius: 25px;
+  cursor: pointer;
+  z-index: -50;
+  /*border: 1px solid;*/
+}
+
+.selection-outline {
+  position: absolute;
+  height: 60px;
+  width: 60px;
+  z-index: 50;
+  border-radius: 50px;
+  border: 5px solid;
+  pointer-events: none;
+}
+
+.resource-bar-shield {
+  width: 380px;
+  height: 16px;
+  top: 154px;
+  left: 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+  transform: skewX(-20deg);
+}
+
+.resource-bar-shield-fill {
+  background-color: rgba(3, 167, 220, 0.9);
+  transition: all 0.5s ease;
+
+}
+
+.resource-bar-health {
+  width: 380px;
+  height: 28px;
+  top: 200px;
+  left: 12px;
+  background-color: rgba(0, 0, 0, 0.5);
+  transform: skewX(-20deg);
+
+}
+
+.resource-bar-health-fill {
+  background-color: rgba(100, 215, 42, 0.9);
+  transition: all 0.5s ease;
+
+}
+
+.resource-item-ammo {
+  background-color: rgba(169, 185, 72, 0.9);
+  position: relative;
+  display: float;
+  width: 138px;
+  height: 54px;
+  top: 192px;
+  left: 15px;
+  font-size: 22px;
+  text-align: center;
+  color: white;
+  vertical-align: center;
+  text-shadow: 2px 2px 6px #000000;
+  /*font-family: Arial, Helvetica, sans-serif;*/
+  font-family: 'Luckiest Guy', sans-serif;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.enemy-avatar {
+  position: absolute;
+  height: 150px;
+  top: 10px;
+  z-index: 10;
+  left: 240px;
+  /* filter: opacity(1) drop-shadow(0 0 0 blue); */
+  
+  /* animation: enemySpawn 1s linear 0s 1; */
+
+}
+
+@keyframes enemySpawn {
+  0% {
+    left: 500px;
+  }
+
+  100% {
+    left: 240px;
+
+  }
+}
+
+@keyframes slideshow {
+  0% {
+    left: 50%;
+  }
+
+  100% {
+    left: -250%;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(1px, 1px) rotate(0deg);
+  }
+
+  10% {
+    transform: translate(-1px, -2px) rotate(-1deg);
+  }
+
+  20% {
+    transform: translate(-3px, 0px) rotate(1deg);
+  }
+
+  30% {
+    transform: translate(3px, 2px) rotate(0deg);
+  }
+
+  40% {
+    transform: translate(1px, -1px) rotate(1deg);
+  }
+
+  50% {
+    transform: translate(-1px, 2px) rotate(-1deg);
+  }
+
+  60% {
+    transform: translate(-3px, 1px) rotate(0deg);
+  }
+
+  70% {
+    transform: translate(3px, 1px) rotate(-1deg);
+  }
+
+  80% {
+    transform: translate(-1px, -1px) rotate(1deg);
+  }
+
+  90% {
+    transform: translate(1px, 2px) rotate(0deg);
+  }
+
+  100% {
+    transform: translate(1px, -2px) rotate(-1deg);
+  }
+}
+
+@keyframes vibrate {
+  0% {
+    transform: translate(0);
+  }
+
+  20% {
+    transform: translate(-2px, 2px);
+  }
+
+  40% {
+    transform: translate(-2px, -2px);
+  }
+
+  60% {
+    transform: translate(2px, 2px);
+  }
+
+  80% {
+    transform: translate(2px, -2px);
+  }
+
+  100% {
+    transform: translate(0);
+  }
+}
