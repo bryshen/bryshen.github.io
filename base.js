@@ -409,17 +409,7 @@ function createGrid(numRows, numCols, container) {
   for (var x = 0; x < numCols; x++) {
     var tileColumn = [];
     for (var y = 0; y < numRows; y++) {
-      var div = document.createElement('div');
-      div.style.fontSize = '1em';
-      div.style.fontSize = '3em';
-      div.style.textAlign = 'center';
-      div.style.verticalAlign = 'middle';
-      div.classList.add('selectTile');
-      div.addEventListener('click', tileClickHandler);
-      container.appendChild(div);
-
-      var t = new Tile(div, tileTypes[Math.floor(Math.random() * tileTypes.length)], x, y);
-      t.updateElement();
+      var t = createNewTile(x, y, container);
       tileColumn.push(t);
     }
     tiles.push(tileColumn);
