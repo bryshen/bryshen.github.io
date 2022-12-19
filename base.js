@@ -433,13 +433,14 @@ function tileSwipeEndHandler(event){
   var xDiff = xDown - xUp;
   var yDiff = yDown - yUp;
   var dir = -1;
-                                                                        
+
   if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {
     /*most significant*/
       if ( xDiff > 0 ) {
           /* right swipe */ 
           dir = 3;
-      } else {
+      }
+      if (xDiff < 0) {
           /* left swipe */
           dir = 2;
       }                       
@@ -447,7 +448,8 @@ function tileSwipeEndHandler(event){
       if ( yDiff > 0 ) {
           /* up swipe */ 
           dir = 0;
-      } else { 
+      } 
+      if (yDiff < 0) { 
           /* down swipe */
           dir = 1;
       }                                                                 
