@@ -427,6 +427,11 @@ function tileSwipeEndHandler(event){
       return;
   }
 
+  if (!inputAllowed)
+  return;
+
+  inputAllowed = false;
+
   var xUp = event.changedTouches[0].screenX;                                    
   var yUp = event.changedTouches[0].screenY;
 
@@ -454,8 +459,8 @@ function tileSwipeEndHandler(event){
           dir = 1;
       }                                                                 
   }
-  handleSwipe(event.target.tile, dir);
   deselectTile(selectedTile);
+  handleSwipe(event.target.tile, dir);
   /* reset values */
   xDown = null;
   yDown = null;
@@ -468,6 +473,10 @@ function handleSwipe(tile, dir){
   var neighbors = getNeighbors(tiles, tile.x, tile.y);
   var directions = ['up', 'down', 'left', 'right'];
   //console.log('Swiped ' + directions[dir]);
+  if (neighbors[dir] == null){
+    inputAllowed = true;
+    return false;
+  }
   swapTiles(tile, neighbors[dir]);
   setTimeout(checkBoard, 200, tile, neighbors[dir]);
 }
