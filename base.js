@@ -330,8 +330,6 @@ function selectTile(tile) {
     deselectTile(selectedTile);
     selectTile(tile);
   }
-
-
 }
 
 function waterfall() {
@@ -409,20 +407,20 @@ function tileClickHandler(event) {
   selectTile(event.target.tile);
 }
 
-function getTouches(evt) {
-  return evt.touches ||             // browser API
-         evt.originalEvent.touches; // jQuery
-}        
-
 function tileSwipeStartHandler(event){
   //console.log('Start: ' + event.target.tile.type.name);
-  const firstTouch = getTouches(event)[0];                                      
+  event.target.style.animation = 'pulse .5s';
+  event.target.style.animationIterationCount = 'infinite';
+
   xDown = event.changedTouches[0].screenX;
   yDown = event.changedTouches[0].screenY;
 }
 
 function tileSwipeEndHandler(event){
   //console.log('End: ' + event.target.tile.type.name);
+
+  event.target.style.animation = '';
+
   if ( ! xDown || ! yDown ) {
       return;
   }
