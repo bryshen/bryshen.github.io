@@ -459,8 +459,11 @@ function tileSwipeEndHandler(event){
           dir = 1;
       }                                                                 
   }
-  deselectTile(selectedTile);
-  handleSwipe(event.target.tile, dir);
+  if (handleSwipe(event.target.tile, dir))
+    deselectTile(selectedTile);
+  else
+    inputAllowed = true;
+
   /* reset values */
   xDown = null;
   yDown = null;
@@ -473,12 +476,12 @@ function handleSwipe(tile, dir){
   var neighbors = getNeighbors(tiles, tile.x, tile.y);
   var directions = ['up', 'down', 'left', 'right'];
   //console.log('Swiped ' + directions[dir]);
-  if (neighbors[dir] == null){
-    inputAllowed = true;
+  if (swapTiles(tile, neighbors[dir])){
+    setTimeout(checkBoard, 200, tile, neighbors[dir]);
+  }else{
     return false;
   }
-  swapTiles(tile, neighbors[dir]);
-  setTimeout(checkBoard, 200, tile, neighbors[dir]);
+  return true;
 }
 
 function createGrid(numRows, numCols, container) {
