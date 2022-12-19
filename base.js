@@ -339,7 +339,7 @@ function waterfall() {
     var column = tiles[x];
     column = removeNullAndUndefined(column);
     while (column.length < gameRows) {
-      var t = createNewTile(x, 0, puzzleContainer);
+      var t = createNewTile(x, -5, puzzleContainer);
       column.unshift(t);
     }
     for (let y = 0; y < column.length; y++) {
