@@ -147,6 +147,10 @@ var map;
 var enemyAvatar;
 //enemyAvatar.style.display = 'none';
 
+// Controls
+var xDown = null;                                                        
+var yDown = null;
+
 document.addEventListener("DOMContentLoaded", startGame);
 //window.onload = startGame;
 
@@ -384,6 +388,8 @@ function updateBoard() {
 
 
 function deselectTile(tile) {
+  if (tile == null)
+    return false;
   if (selectedTile !== tile)
     return;
   tile.element.style.animation = '';
@@ -403,6 +409,66 @@ function tileClickHandler(event) {
   selectTile(event.target.tile);
 }
 
+function getTouches(evt) {
+  return evt.touches ||             // browser API
+         evt.originalEvent.touches; // jQuery
+}        
+
+function tileSwipeStartHandler(event){
+  //console.log('Start: ' + event.target.tile.type.name);
+  const firstTouch = getTouches(event)[0];                                      
+  xDown = event.changedTouches[0].screenX;
+  yDown = event.changedTouches[0].screenY;
+}
+
+function tileSwipeEndHandler(event){
+  //console.log('End: ' + event.target.tile.type.name);
+  if ( ! xDown || ! yDown ) {
+      return;
+  }
+
+  var xUp = event.changedTouches[0].screenX;                                    
+  var yUp = event.changedTouches[0].screenY;
+
+  var xDiff = xDown - xUp;
+  var yDiff = yDown - yUp;
+  var dir = -1;
+                                                                        
+  if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {
+    /*most significant*/
+      if ( xDiff > 0 ) {
+          /* right swipe */ 
+          dir = 3;
+      } else {
+          /* left swipe */
+          dir = 2;
+      }                       
+  } else {
+      if ( yDiff > 0 ) {
+          /* up swipe */ 
+          dir = 0;
+      } else { 
+          /* down swipe */
+          dir = 1;
+      }                                                                 
+  }
+  handleSwipe(event.target.tile, dir);
+  deselectTile(selectedTile);
+  /* reset values */
+  xDown = null;
+  yDown = null;
+  
+}
+
+function handleSwipe(tile, dir){
+  if (dir < 0)
+    return false;
+  var neighbors = getNeighbors(tiles, tile.x, tile.y);
+  var directions = ['up', 'down', 'left', 'right'];
+  //console.log('Swiped ' + directions[dir]);
+  swapTiles(tile, neighbors[dir]);
+  setTimeout(checkBoard, 200, tile, neighbors[dir]);
+}
 
 function createGrid(numRows, numCols, container) {
   tiles = [];
@@ -424,9 +490,12 @@ function createNewTile(x, y, container) {
   div.style.verticalAlign = 'middle';
   div.classList.add('selectTile');
   div.addEventListener('click', tileClickHandler);
+  div.addEventListener('touchstart', tileSwipeStartHandler);
+  div.addEventListener('touchend', tileSwipeEndHandler);
+
   container.appendChild(div);
 
-  var t = new Tile(div, tileTypes[Math.floor(Math.random() * tileTypes.length)], x, -5);
+  var t = new Tile(div, tileTypes[Math.floor(Math.random() * tileTypes.length)], x, y);
   t.updateElement();
   return t;
 
@@ -434,6 +503,8 @@ function createNewTile(x, y, container) {
 
 
 function swapTiles(tile1, tile2) {
+  if (tile1 == null || tile2 == null)
+    return false;
   var x = tile1.x;
   var y = tile1.y;
 
@@ -449,6 +520,7 @@ function swapTiles(tile1, tile2) {
   tiles[tile1.x][tile1.y] = tile1;
   tiles[tile2.x][tile2.y] = tile2;
 
+  return true;
 }
 
 function replaceTile(oldTile, newTile) {
@@ -549,6 +621,20 @@ function findGroups() {
   return groups;
 }
 
+function getNeighbors(arr, x, y) {
+  var neighbors = [];
+  //check top
+  neighbors.push((arr[x][y - 1] !== undefined ? arr[x][y - 1] : null));
+   //check bottom
+   neighbors.push((arr[x][y + 1] !== undefined ? arr[x][y + 1] : null));
+  //check right
+  neighbors.push((arr[x + 1] !== undefined && arr[x + 1][y] !== undefined ? arr[x + 1][y] : null));
+  //check left
+  neighbors.push((arr[x - 1] !== undefined && arr[x - 1][y] !== undefined ? arr[x - 1][y] : null));
+  return neighbors;
+}
+
+
 /*
 function findGroups() {
   var groups = [];
@@ -608,28 +694,6 @@ function getIndexOfK(arr, k) {
       return [i, index];
     }
   }
-}
-
-
-function getNeighbors(arr, x, y) {
-  var neighbors = [];
-  //check top
-  if (arr[y][x - 1] !== undefined) {
-    neighbors.push(arr[y][x - 1]);
-  }
-  //check right
-  if (arr[y + 1] !== undefined && arr[y + 1][x] !== undefined) {
-    neighbors.push(arr[y + 1][x]);
-  }
-  //check bottom
-  if (arr[y][x + 1] !== undefined) {
-    neighbors.push(arr[y][x + 1]);
-  }
-  //check left
-  if (arr[y - 1] !== undefined && arr[y - 1][x] !== undefined) {
-    neighbors.push(arr[y - 1][x]);
-  }
-  return neighbors;
 }
 
 function getAdjacentTiles(tile) {
