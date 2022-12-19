@@ -432,33 +432,43 @@ function tileSwipeEndHandler(event){
 
   inputAllowed = false;
 
+  const deadZone = 10;
+
   var xUp = event.changedTouches[0].screenX;                                    
   var yUp = event.changedTouches[0].screenY;
 
   var xDiff = xDown - xUp;
   var yDiff = yDown - yUp;
+  var xAbs = Math.abs(xDiff);
+  var yAbs = Math.abs(yDiff);
   var dir = -1;
 
-  if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {
-    /*most significant*/
-      if ( xDiff > 0 ) {
-          /* right swipe */ 
-          dir = 3;
-      }
-      if (xDiff < 0) {
-          /* left swipe */
-          dir = 2;
-      }                       
-  } else {
-      if ( yDiff > 0 ) {
-          /* up swipe */ 
-          dir = 0;
-      } 
-      if (yDiff < 0) { 
-          /* down swipe */
-          dir = 1;
-      }                                                                 
+  console.log('swipe x: ' + xDiff);
+  console.log('swipe y: ' + yDiff);
+
+  if (xAbs > deadZone || yAbs > deadZone){
+    if ( xAbs > yAbs ) {
+      /*most significant*/
+        if ( xDiff > 0 ) {
+            /* right swipe */ 
+            dir = 3;
+        }
+        if (xDiff < 0) {
+            /* left swipe */
+            dir = 2;
+        }
+    } else {
+        if ( yDiff > 0 ) {
+            /* up swipe */ 
+            dir = 0;
+        } 
+        if (yDiff < 0) { 
+            /* down swipe */
+            dir = 1;
+        }                                                                 
+    }
   }
+
   if (handleSwipe(event.target.tile, dir))
     deselectTile(selectedTile);
   else
