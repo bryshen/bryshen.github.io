@@ -1,0 +1,98 @@
+[
+  {
+	"name": "Assault Rifle",
+	"damage": 30,
+    	"firerate": 5.5,
+	"magazine": 30,
+	"reloadTime": 2.5,
+    	"imgSrc": "https://static.wikia.nocookie.net/fortnite_gamepedia/images/c/cf/New_AR_icon.png"
+  },
+  {
+	"name": "Harvesting Tool",
+	"damage": 20,
+    	"firerate": 1,
+	"magazine": 0,
+	"reloadTime": 0,
+    	"imgSrc": "https://static.wikia.nocookie.net/fortnite/images/8/8e/Pickaxe_%28Chapter_3%29_-_Harvesting_Tool_-_Fortnite.png"
+  },
+  {
+	"name": "Infantry Rifle",
+	"damage": 36,
+    	"firerate": 4,
+	"magazine": 8,
+	"reloadTime": 2.5,
+    	"imgSrc": "https://static.wikia.nocookie.net/fortnite_gamepedia/images/0/03/InfantryRifle.png"
+  },
+  {
+	"name": "Suppressed Assault Rifle",
+	"damage": 30,
+    	"firerate": 5.5,
+	"magazine": 30,
+	"reloadTime": 2.3,
+    	"imgSrc": "https://static.wikia.nocookie.net/fortnite_gamepedia/images/3/35/Suppressed_assault_rifle_icon.png"
+  },
+  {
+	"name": "Drum Gun",
+	"damage": 21,
+    	"firerate": 8,
+	"magazine": 40,
+	"reloadTime": 3.2,
+    	"imgSrc": "https://static.wikia.nocookie.net/fortnite_gamepedia/images/6/6c/Drum_gun_icon.png"
+  },
+  {
+	"name": "Pump Shotgun",
+	"damage": 92,
+    	"firerate": 0.7,
+	"magazine": 5,
+	"reloadTime": 4.8,
+    	"imgSrc": "https://static.wikia.nocookie.net/fortnite_gamepedia/images/3/32/Pump_shotgun.png"
+  },
+  {
+	"name": "Combat Shotgun",
+	"damage": 57,
+    	"firerate": 1.7,
+	"magazine": 8,
+	"reloadTime": 5.3,
+    	"imgSrc": "https://static.wikia.nocookie.net/fortnite_gamepedia/images/7/70/Combatshotgun.png"
+  },
+  {
+	"name": "Submachine Gun",
+	"damage": 17,
+    	"firerate": 10,
+	"magazine": 30,
+	"reloadTime": 2.4,
+    	"imgSrc": "https://static.wikia.nocookie.net/fortnite_gamepedia/images/3/3f/Submachine_Gun_%28Chapter_2%29.png"
+  },
+  {
+	"name": "Machine Pistol",
+	"damage": 15,
+    	"firerate": 14,
+	"magazine": 32,
+	"reloadTime": 2.4,
+    	"imgSrc": "https://static.wikia.nocookie.net/fortnite_gamepedia/images/c/cf/MachinePistol.png"
+  },
+  {
+	"name": "Pistol",
+	"damage": 28,
+    	"firerate": 6.75,
+	"magazine": 16,
+	"reloadTime": 1.3,
+    	"imgSrc": "https://static.wikia.nocookie.net/fortnite_gamepedia/images/0/0d/Pistol_%28Epic_and_Legendary%29.png"
+  },
+  {
+	"name": "Revolver",
+	"damage": 63,
+    	"firerate": 1.5,
+	"magazine": 6,
+	"reloadTime": 1.9,
+    	"imgSrc": "https://static.wikia.nocookie.net/fortnite_gamepedia/images/a/a7/New_Revolver.png"
+  },
+  {
+	"name": "Bolt-Action Sniper Rifle",
+	"damage": 95,
+    	"firerate": 0.33,
+	"magazine": 1,
+	"reloadTime": 3.3,
+    	"imgSrc": "https://static.wikia.nocookie.net/fortnite_gamepedia/images/a/a7/New_Revolver.png"
+  }
+]
