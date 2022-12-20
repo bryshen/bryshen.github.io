@@ -3,21 +3,10 @@
 //https://static.wikia.nocookie.net/fortnite_gamepedia/images/6/6e/Storm_holding_icon.png
 //https://static.wikia.nocookie.net/fortnite_gamepedia/images/e/e1/Storm_moving_icon.gif
 
-import { Weapon } from './weapons.js';
+import { getDefaultWeapon, getWeaponList, Weapon } from './weapons.js';
 
 const mapSource = 'https://pbs.twimg.com/media/FjHqlfPaAAAFOPR?format=jpg&name=large';
 const costumeImages = ['https://static.wikia.nocookie.net/fortnite/images/9/90/Blue_Squire_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/d/d5/New_Sparkle_Specialist.png', 'https://static.wikia.nocookie.net/fortnite/images/1/11/Rust_Lord_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/d/d9/Elite_Agent_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/6/62/Zoey_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/4/47/The_Visitor_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/f/f2/Redline_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/d/d8/Rook_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/7/7f/DJ_Yonder_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/3/38/The_Autumn_Queen.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/1/1d/T-Soldier-HID-825-Athena-Commando-F-SportsFashion-L.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/5/5e/New_Ice_Queen.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/f/fc/New_Cloacked_Star.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/1/1a/New_Kuno.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/f/fe/T_Kairos_ConstructorM_L.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/c/cf/New_Lynx.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/5/5e/Newer_Raptor.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/8/8e/Rue.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/5/51/New_Fishstick.png'];
-
-// class Weapon{
-//   constructor(name, damage, firerate, magazine, reloadTime, imgsrc) {
-//       this.name = name;
-//       this.damage = damage;
-//       this.firerate = firerate;
-//       this.magazine = magazine;
-//       this.reloadTime = reloadTime;
-//       this.imgsrc = imgsrc;
-//     }
-// }
 
 // Match Tiles Types
 class TileType {
@@ -68,7 +57,7 @@ class Player {
     this.health = new Resource('health', 100, 100);
     this.shield = new Resource('shield', 100, 100);
     this.ammo = new Resource('ammo', 100, 100);
-    this.weapon = new Weapon('pistol', 5, 1, 0, 0, null);
+    this.weapon = getDefaultWeapon();
     this.onHurt = function() {};
     this.onDeath = function() {};
   }
@@ -155,10 +144,13 @@ var enemyAvatar;
 var xDown = null;                                                        
 var yDown = null;
 
+var weapons;
+
 document.addEventListener("DOMContentLoaded", startGame);
 //window.onload = startGame;
 
 function startGame() {
+  weapons = getWeaponList();
   siteContainer = document.getElementById('container');
   visualContainer = document.createElement('div');
   visualContainer.className = 'visual-container';
@@ -220,7 +212,7 @@ function triggerAttack(attacker, victim) {
   if (attacker.isAlive() && victim.isAlive())
     attacker.shoot(victim);
 
-  setTimeout(triggerAttack, attacker.weapon.firerate * 1000, attacker, victim);
+  setTimeout(triggerAttack, 1000 / attacker.weapon.firerate, attacker, victim);
   //shakeIt(enemyAvatar);  
 }
 
@@ -376,8 +368,8 @@ function doubleCheckBoard() {
 }
 
 function updateBoard() {
-  for (x = 0; x < tiles.length; x++) {
-    for (y = 0; y < tiles[x].length; y++) {
+  for (var x = 0; x < tiles.length; x++) {
+    for (var y = 0; y < tiles[x].length; y++) {
       tiles[x][y].updateElement();
     }
   }

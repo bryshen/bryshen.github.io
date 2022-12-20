@@ -1,13 +1,5 @@
 [
   {
-	"name": "Assault Rifle",
-	"damage": 30,
-    	"firerate": 5.5,
-	"magazine": 30,
-	"reloadTime": 2.5,
-    	"imgSrc": "https://static.wikia.nocookie.net/fortnite_gamepedia/images/c/cf/New_AR_icon.png"
-  },
-  {
 	"name": "Harvesting Tool",
 	"damage": 20,
     	"firerate": 1,
@@ -46,6 +38,14 @@
 	"magazine": 5,
 	"reloadTime": 4.8,
     	"imgSrc": "https://static.wikia.nocookie.net/fortnite_gamepedia/images/3/32/Pump_shotgun.png"
+  },
+  {
+	"name": "Assault Rifle",
+	"damage": 30,
+    	"firerate": 5.5,
+	"magazine": 30,
+	"reloadTime": 2.5,
+    	"imgSrc": "https://static.wikia.nocookie.net/fortnite_gamepedia/images/c/cf/New_AR_icon.png"
   },
   {
 	"name": "Combat Shotgun",

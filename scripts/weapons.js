@@ -12,14 +12,14 @@ export class Weapon{
       }
 }
 
-var weapons;
-
 export function getWeaponList(){
-  console.log([weaponList[0]]);
-  return null;
-  if (weapons == null){
-    weapons = JSON.parse(weaponList);
-  }
-  
-  return weapons;
+  return weaponList;
+}
+
+export function getDefaultWeapon(){
+  return weaponList[0];
+}
+
+export function getRandomWeapon(){
+  return weaponList[Math.random * (weaponList.length - 1) + 1];
 }
