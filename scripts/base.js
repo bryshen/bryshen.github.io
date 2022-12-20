@@ -3,8 +3,8 @@
 //https://static.wikia.nocookie.net/fortnite_gamepedia/images/6/6e/Storm_holding_icon.png
 //https://static.wikia.nocookie.net/fortnite_gamepedia/images/e/e1/Storm_moving_icon.gif
 
-import { getDefaultWeapon, getWeaponList, Weapon } from './weapons.js';
-
+import { getDefaultWeapon, getRandomWeapon, getWeaponList, Weapon } from './weapons.js';
+import { Events } from './events.js';
 const mapSource = 'https://pbs.twimg.com/media/FjHqlfPaAAAFOPR?format=jpg&name=large';
 const costumeImages = ['https://static.wikia.nocookie.net/fortnite/images/9/90/Blue_Squire_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/d/d5/New_Sparkle_Specialist.png', 'https://static.wikia.nocookie.net/fortnite/images/1/11/Rust_Lord_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/d/d9/Elite_Agent_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/6/62/Zoey_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/4/47/The_Visitor_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/f/f2/Redline_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/d/d8/Rook_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/7/7f/DJ_Yonder_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/3/38/The_Autumn_Queen.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/1/1d/T-Soldier-HID-825-Athena-Commando-F-SportsFashion-L.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/5/5e/New_Ice_Queen.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/f/fc/New_Cloacked_Star.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/1/1a/New_Kuno.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/f/fe/T_Kairos_ConstructorM_L.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/c/cf/New_Lynx.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/5/5e/Newer_Raptor.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/8/8e/Rue.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/5/51/New_Fishstick.png'];
 
@@ -52,6 +52,7 @@ class Resource {
 }
 
 class Player {
+  events = new Events(this);
   constructor(name) {
     this.name = name;
     this.health = new Resource('health', 100, 100);
@@ -60,6 +61,12 @@ class Player {
     this.weapon = getDefaultWeapon();
     this.onHurt = function() {};
     this.onDeath = function() {};
+  }
+  changeWeapon(weapon){
+    if (weapon === weapon)
+      return;
+    this.weapon = weapon;
+    this.emit('weaponChange');
   }
   hurt(damage) {
     if (damage <= 0)
@@ -80,7 +87,7 @@ class Player {
     }
     //console.log('shooting ' + this.weapon.name);
     this.ammo.changeValue(-1);
-    e.hurt(this.weapon.damage);
+    e.hurt(this.weapon.damage * globalDamageMultiplier);
     return true;
   }
   isAlive() {
@@ -122,6 +129,7 @@ var movement = new TileType('movement', '👟', 'https://static.wikia.nocookie.n
 //var tileTypes = [loot, health, shield, ammo];
 var tileTypes = [loot, health, shield, ammo, movement];
 
+var globalDamageMultiplier = 0.5;
 var gameRows = 7;
 var gameColumns = 7;
 var tiles;
@@ -138,6 +146,7 @@ var puzzleContainer;
 var visualContainer;
 var map;
 var enemyAvatar;
+var weaponAvatar;
 //enemyAvatar.style.display = 'none';
 
 // Controls
@@ -173,7 +182,14 @@ function startGame() {
   createGrid(gameRows, gameColumns, puzzleContainer);
   addResourceBar(player.health, 'red');
   addResourceBar(player.shield, 'blue');
-  createResourceCounter(player.ammo);
+  var rscCounter = createResourceCounter(player.ammo);
+  weaponAvatar = document.createElement('img');
+  weaponAvatar.classList.add('weapon-image');
+  //weaponAvatar.src = player.weapon.imgSrc;
+  rscCounter.appendChild(weaponAvatar);
+
+  player.addEventListener('weaponChange', function(event){weaponAvatar.src = event.target.weapon.imgSrc});
+
   player.health.changeValue(100);
   player.shield.setValue(0);
   player.ammo.setValue(0);
@@ -588,6 +604,11 @@ function turnInTile(tile) {
       p = p.substr(0, p.length - 2); // remove px ie : 50px becomes 50
       map.style.left = (+p) - 2 + 'px' // convert p to number and add 10
       break;
+    case 'loot':
+      var gift = getRandomWeapon();
+      player.changeWeapon(gift);
+      console.log('Player was given a ' + gift.name);
+    break;
     default:
       console.log(`No Reward for ${tile.type.name}.`);
   }
