@@ -593,7 +593,7 @@ function turnInTile(tile) {
       map.style.left = (+p) - 2 + 'px' // convert p to number and add 10
       break;
     default:
-      console.log(`Not Reward for ${tile.type.name}.`);
+      console.log(`No Reward for ${tile.type.name}.`);
   }
 
 }
