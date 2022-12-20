@@ -7,6 +7,7 @@ html, body {
 body {
   background-color: orange;
   background-image: url('https://static.wikia.nocookie.net/fortnite/images/2/2a/Legendary_-_Rarity_-_Fortnite.png');
+  background-size: cover;
   /* background-size: 800px; */
   /* width: 100%; */
   /* position: relative; */
