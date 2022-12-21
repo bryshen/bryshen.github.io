@@ -1,8 +1,8 @@
 [
   {
 	"name": "Harvesting Tool",
-	"damage": 20,
-    	"firerate": 1,
+	"damage": 10,
+    "firerate": 1,
 	"magazine": 0,
 	"reloadTime": 0,
     	"imgSrc": "https://static.wikia.nocookie.net/fortnite/images/8/8e/Pickaxe_%28Chapter_3%29_-_Harvesting_Tool_-_Fortnite.png"
@@ -26,7 +26,7 @@
   {
 	"name": "Drum Gun",
 	"damage": 21,
-    	"firerate": 8,
+    "firerate": 8,
 	"magazine": 40,
 	"reloadTime": 3.2,
     	"imgSrc": "https://static.wikia.nocookie.net/fortnite_gamepedia/images/6/6c/Drum_gun_icon.png"
@@ -34,7 +34,7 @@
   {
 	"name": "Pump Shotgun",
 	"damage": 92,
-    	"firerate": 0.7,
+    "firerate": 0.7,
 	"magazine": 5,
 	"reloadTime": 4.8,
     	"imgSrc": "https://static.wikia.nocookie.net/fortnite_gamepedia/images/3/32/Pump_shotgun.png"
@@ -90,7 +90,7 @@
   {
 	"name": "Bolt-Action Sniper Rifle",
 	"damage": 95,
-    	"firerate": 0.33,
+    "firerate": 0.33,
 	"magazine": 1,
 	"reloadTime": 3.3,
     	"imgSrc": "https://static.wikia.nocookie.net/fortnite_gamepedia/images/a/a7/New_Revolver.png"

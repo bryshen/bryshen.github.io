@@ -624,6 +624,8 @@ function turnInTile(tile) {
 }
 
 function bestWeapon(weapon1, weapon2){
+  if (weapon1 == undefined || weapon2 == undefined)
+    return null;
   var dps1 = weapon1.damage / weapon1.firerate;
   var dps2 = weapon2.damage / weapon2.firerate;
   if(dps1 < dps2)

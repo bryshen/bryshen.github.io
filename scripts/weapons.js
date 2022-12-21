@@ -21,5 +21,6 @@ export function getDefaultWeapon(){
 }
 
 export function getRandomWeapon(){
-  return weaponList[Math.random * (weaponList.length - 1) + 1];
+  var i = Math.floor(Math.random() * (weaponList.length - 1) + 1);
+  return weaponList[i];
 }
