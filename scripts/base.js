@@ -58,7 +58,7 @@ class Player {
     this.shield = new Resource('shield', 100, 100);
     this.ammo = new Resource('ammo', 100, 100);
     this.weapon = getDefaultWeapon();
-    this.onHurt = function() {};
+    this.onHurt = function(damage) {};
     this.onDeath = function() {};
     this.onWeaponChange = function() {};
     //this.events = new Events(this);
@@ -78,7 +78,7 @@ class Player {
       this.health.changeValue(-damage);
     }
     //console.log(this.name + ' was hurt for ' + damage);
-    this.onHurt();
+    this.onHurt(damage);
     if (!this.isAlive())
     	this.onDeath();
   }
@@ -199,7 +199,7 @@ function startGame() {
   player.health.changeValue(100);
   player.shield.setValue(0);
   player.ammo.setValue(0);
-  setTimeout(startEncounter, 30000);
+  setTimeout(startEncounter, 15000);
 
 }
 
@@ -212,8 +212,9 @@ function startEncounter() {
   if (enemyAvatar != null)
     enemyAvatar.remove();
   enemyAvatar = createAvatar(costumeImages[Math.floor(Math.random() * costumeImages.length)], visualContainer);
-  enemy.onHurt = function() {
+  enemy.onHurt = function(damage) {
     shakeIt(enemyAvatar)
+    createDamageNumber(damage, (20 + Math.random() * 20) + 'px', (230 + Math.random() * 30) + 'px', visualContainer);
   };
 	enemy.onDeath = function(){
   	enemyAvatar.remove();
@@ -277,6 +278,18 @@ function createAvatar(src, container) {
   container.appendChild(img);
   return img;
 }
+
+function createDamageNumber(text, top, left, container){
+	var  div =  document.createElement('div');
+  div.className = 'floating-damage-indicator';
+  div.style.top = top;
+  div.style.left = left;
+  div.innerText = text;
+  container.appendChild(div);
+  setTimeout(function(){div.style.top = '-100px';}, 100);
+  setTimeout(function(){div.remove();}, 2000);
+}
+
 
 function addResourceBar(resource, color) {
   var resourceBar = document.createElement('div');
