@@ -198,8 +198,8 @@ function startGame() {
 
   player.health.changeValue(100);
   player.shield.setValue(0);
-  player.ammo.setValue(0);
-  setTimeout(startEncounter, 15000);
+  player.ammo.setValue(50);
+  setTimeout(startEncounter, 1500);
 
 }
 
@@ -217,9 +217,10 @@ function startEncounter() {
     createDamageNumber(damage, (20 + Math.random() * 20) + 'px', (230 + Math.random() * 30) + 'px', visualContainer);
   };
 	enemy.onDeath = function(){
-  	enemyAvatar.remove();
+    enemyAvatar.className = 'enemy-avatar-dead';
+    setTimeout(function(){enemyAvatar.remove()}, 2000);
     enemy = null;
-    setTimeout(startEncounter, 30000);
+    setTimeout(startEncounter, 15000);
   }
   enemyAvatar.style.animation = 'enemySpawn .5s';
   enemyAvatar.style.animationIterationCount = '1';
