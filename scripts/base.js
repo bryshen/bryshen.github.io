@@ -7,6 +7,8 @@ import { getDefaultWeapon, getRandomWeapon, getWeaponList, Weapon } from './weap
 const mapSource = 'https://pbs.twimg.com/media/FjHqlfPaAAAFOPR?format=jpg&name=large';
 const costumeImages = ['https://static.wikia.nocookie.net/fortnite/images/9/90/Blue_Squire_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/d/d5/New_Sparkle_Specialist.png', 'https://static.wikia.nocookie.net/fortnite/images/1/11/Rust_Lord_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/d/d9/Elite_Agent_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/6/62/Zoey_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/4/47/The_Visitor_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/f/f2/Redline_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/d/d8/Rook_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/7/7f/DJ_Yonder_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/3/38/The_Autumn_Queen.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/1/1d/T-Soldier-HID-825-Athena-Commando-F-SportsFashion-L.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/5/5e/New_Ice_Queen.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/f/fc/New_Cloacked_Star.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/1/1a/New_Kuno.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/f/fe/T_Kairos_ConstructorM_L.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/c/cf/New_Lynx.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/5/5e/Newer_Raptor.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/8/8e/Rue.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/5/51/New_Fishstick.png'];
 
+const openChestImage = 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/9/96/Treasure_chest_%28tier_1%29.png/revision/latest?cb=20180312205812';
+
 // Match Tiles Types
 class TileType {
   constructor(name, emoji, src) {
@@ -144,6 +146,8 @@ var map;
 var enemyAvatar;
 var weaponAvatar;
 
+var weaponContainer;
+
 // Controls
 var xDown = null;                                                        
 var yDown = null;
@@ -176,11 +180,17 @@ function startGame() {
   createGrid(gameRows, gameColumns, puzzleContainer);
   addResourceBar(player.health, 'red');
   addResourceBar(player.shield, 'blue');
-  var rscCounter = createResourceCounter(player.ammo);
+
+  var weaponContainer = document.createElement('div');
+  weaponContainer.className = 'weapon-container';
+  document.body.appendChild(weaponContainer);
+
+
+  var rscCounter = createResourceCounter(player.ammo, weaponContainer);
   weaponAvatar = document.createElement('img');
   weaponAvatar.classList.add('weapon-image');
   weaponAvatar.src = player.weapon.imgSrc;
-  rscCounter.appendChild(weaponAvatar);
+  weaponContainer.appendChild(weaponAvatar);
 
   player.onWeaponChange = function(){
     weaponAvatar.src = player.weapon.imgSrc;};
@@ -188,7 +198,7 @@ function startGame() {
   player.health.changeValue(100);
   player.shield.setValue(0);
   player.ammo.setValue(100);
-  setTimeout(startEncounter, 1500);
+  setTimeout(startEncounter, 30000);
 
 }
 
@@ -233,25 +243,26 @@ function generateEnemy() {
   e.ammo.setValue(Math.floor(Math.random() * 99));
   e.shield.setValue(Math.floor(Math.random() * 99));
   e.health.setValue(Math.floor(Math.random() * 99));
+  e.weapon = getRandomWeapon();
   return e;
 }
 
-function createResourceCounter(resource) {
+function createResourceCounter(resource, container) {
 
   const resourceDiv = document.createElement('div');
-  const current = document.createElement('span');
-  current.innerHTML = resource.currentValue;
-  const max = document.createElement('span');
-  max.innerHTML = resource.maxValue;
-  const slash = document.createElement('span');
-  slash.innerHTML = '/';
+  //const current = document.createElement('span');
+  //current.innerHTML = resource.currentValue;
+  //const max = document.createElement('span');
+  //max.innerHTML = resource.maxValue;
+  //const slash = document.createElement('span');
+  //slash.innerHTML = '/';
   resourceDiv.className = 'resource-item-' + resource.name;
-  resourceDiv.appendChild(current);
-  resourceDiv.appendChild(slash);
-  resourceDiv.appendChild(max);
-  document.body.appendChild(resourceDiv);
+  //resourceDiv.appendChild(current);
+  //resourceDiv.appendChild(slash);
+  //resourceDiv.appendChild(max);
+  container.appendChild(resourceDiv);
   resource.onValueChange = function() {
-    current.innerHTML = resource.currentValue;
+    resourceDiv.innerHTML = resource.currentValue;
   };
 
 
@@ -599,8 +610,8 @@ function turnInTile(tile) {
 function bestWeapon(weapon1, weapon2){
   if (weapon1 == undefined || weapon2 == undefined)
     return null;
-  var dps1 = weapon1.damage / weapon1.firerate;
-  var dps2 = weapon2.damage / weapon2.firerate;
+  var dps1 = weapon1.firerate;// weapon1.damage / weapon1.firerate;
+  var dps2 = weapon2.firerate;// weapon2.damage / weapon2.firerate;
   if(dps1 < dps2)
     return weapon2;
   return weapon1;
