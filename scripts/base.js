@@ -4,7 +4,6 @@
 //https://static.wikia.nocookie.net/fortnite_gamepedia/images/e/e1/Storm_moving_icon.gif
 
 import { getDefaultWeapon, getRandomWeapon, getWeaponList, Weapon } from './weapons.js';
-//import { Events } from './events.js';
 const mapSource = 'https://pbs.twimg.com/media/FjHqlfPaAAAFOPR?format=jpg&name=large';
 const costumeImages = ['https://static.wikia.nocookie.net/fortnite/images/9/90/Blue_Squire_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/d/d5/New_Sparkle_Specialist.png', 'https://static.wikia.nocookie.net/fortnite/images/1/11/Rust_Lord_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/d/d9/Elite_Agent_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/6/62/Zoey_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/4/47/The_Visitor_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/f/f2/Redline_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/d/d8/Rook_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/7/7f/DJ_Yonder_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/3/38/The_Autumn_Queen.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/1/1d/T-Soldier-HID-825-Athena-Commando-F-SportsFashion-L.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/5/5e/New_Ice_Queen.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/f/fc/New_Cloacked_Star.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/1/1a/New_Kuno.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/f/fe/T_Kairos_ConstructorM_L.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/c/cf/New_Lynx.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/5/5e/Newer_Raptor.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/8/8e/Rue.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/5/51/New_Fishstick.png'];
 
@@ -61,7 +60,6 @@ class Player {
     this.onHurt = function(damage) {};
     this.onDeath = function() {};
     this.onWeaponChange = function() {};
-    //this.events = new Events(this);
   }
   changeWeapon(weapon){
     if (this.weapon === weapon)
@@ -77,7 +75,6 @@ class Player {
     } else {
       this.health.changeValue(-damage);
     }
-    //console.log(this.name + ' was hurt for ' + damage);
     this.onHurt(damage);
     if (!this.isAlive())
     	this.onDeath();
@@ -86,7 +83,6 @@ class Player {
     if (this.ammo.currentValue <= 0) {
       return false;
     }
-    //console.log('shooting ' + this.weapon.name);
     this.ammo.changeValue(-1);
     e.hurt(this.weapon.damage * globalDamageMultiplier);
     return true;
@@ -127,7 +123,6 @@ var shield = new TileType('shield', '🛡️', 'https://static.wikia.nocookie.ne
 var ammo = new TileType('ammo', '🔫', 'https://static.wikia.nocookie.net/fortnite/images/d/da/Ammo_Box_-_Container_-_Fortnite.png');
 var mats = new TileType('mats', '🪵', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/f/f2/Wood_icon.png');
 var movement = new TileType('movement', '👟', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/f/f2/Wood_icon.png');
-//var tileTypes = [loot, health, shield, ammo];
 var tileTypes = [loot, health, shield, ammo, movement];
 
 var globalDamageMultiplier = 0.5;
@@ -148,7 +143,6 @@ var visualContainer;
 var map;
 var enemyAvatar;
 var weaponAvatar;
-//enemyAvatar.style.display = 'none';
 
 // Controls
 var xDown = null;                                                        
@@ -157,7 +151,6 @@ var yDown = null;
 var weapons;
 
 document.addEventListener("DOMContentLoaded", startGame);
-//window.onload = startGame;
 
 function startGame() {
   weapons = getWeaponList();
@@ -192,13 +185,9 @@ function startGame() {
   player.onWeaponChange = function(){
     weaponAvatar.src = player.weapon.imgSrc;};
 
-  //player.addEventListener('weaponChange', function(event){weaponAvatar.src = event.target.weapon.imgSrc});
-
-  //layer.on('weaponChange', function(event){weaponAvatar.src = playerweapon.imgSrc});
-
   player.health.changeValue(100);
   player.shield.setValue(0);
-  player.ammo.setValue(50);
+  player.ammo.setValue(100);
   setTimeout(startEncounter, 1500);
 
 }
@@ -214,7 +203,7 @@ function startEncounter() {
   enemyAvatar = createAvatar(costumeImages[Math.floor(Math.random() * costumeImages.length)], visualContainer);
   enemy.onHurt = function(damage) {
     shakeIt(enemyAvatar)
-    createDamageNumber(damage, (20 + Math.random() * 20) + 'px', (230 + Math.random() * 30) + 'px', visualContainer);
+    createDamageNumber(damage, (20 + Math.random() * 20) + 'px', (230 + Math.random() * 50) + 'px', visualContainer);
   };
 	enemy.onDeath = function(){
     enemyAvatar.className = 'enemy-avatar-dead';
@@ -237,7 +226,6 @@ function triggerAttack(attacker, victim) {
     attacker.shoot(victim);
   console.log('attack: ' + attacker.weapon.firerate);
   setTimeout(triggerAttack, 1000 / attacker.weapon.firerate, attacker, victim);
-  //shakeIt(enemyAvatar);  
 }
 
 function generateEnemy() {
@@ -262,8 +250,6 @@ function createResourceCounter(resource) {
   resourceDiv.appendChild(slash);
   resourceDiv.appendChild(max);
   document.body.appendChild(resourceDiv);
-  //document.getElementById('container').appendChild(resourceDiv);
-
   resource.onValueChange = function() {
     current.innerHTML = resource.currentValue;
   };
@@ -294,42 +280,25 @@ function createDamageNumber(text, top, left, container){
 
 function addResourceBar(resource, color) {
   var resourceBar = document.createElement('div');
-  //resourceBar.id = resource.name;
   resourceBar.className = 'resource-bar-' + resource.name;
-  //sourceBar.style.width = '100px';
-  //sourceBar.style.height = '10px';
-  //resourceBar.style.backgroundColor = 'black';
-  //resourceBar.style.border = '1px solid white';
-  //resourceBar.style.margin = '5px';
   resourceBar.style.position = 'relative';
-  //resourceBar.style.display = 'float'; // 'inline-block';
-  //resourceBar.style.overflow = 'hidden';
   var resourceBarFill = document.createElement('div');
   resourceBarFill.className = 'resource-bar-' + resource.name + '-fill';
   resourceBarFill.style.width = '100%';
   resourceBarFill.style.height = '100%';
-  //resourceBarFill.style.backgroundColor = color;
   resourceBarFill.style.position = 'absolute';
   resourceBarFill.style.top = '0';
   resourceBarFill.style.left = '0';
   resourceBar.appendChild(resourceBarFill);
   document.body.appendChild(resourceBar);
-  //document.getElementById('container').appendChild(resourceBar);
-  //resource.event.addEventListener('change', (e) => {
-  //resourceBarFill.style.width = (resource.currentValue / resource.maxValue) * 100 + '%';}, false);
-  //console.log(resource == undefined);
   resource.onValueChange = function() {
     resourceBarFill.style.width = (this.currentValue / this.maxValue) * 100 + '%';
   };
 }
 
-
-//var selectionOutline = createSelectionOutline(document.body);
-
 function createSelectionOutline(container) {
   var div = document.createElement('div');
   div.classList.add('selection-outline');
-  //div.style.borderColor = 'transparent';
   container.appendChild(div);
   return div;
 }
@@ -381,13 +350,11 @@ function waterfall() {
 }
 
 function checkBoard(tile1, tile2) {
-  //console.log('checking board');
   if (!collapseGroups()) {
     swapTiles(tile1, tile2);
     inputAllowed = true;
     return;
   } else {
-    //shakeIt(enemyAvatar);
     waterfall();
     setTimeout(updateBoard, 250);
   }
@@ -429,7 +396,6 @@ function deselectTile(tile) {
 function checkForAdjacent(tile1, tile2) {
   var xDiff = Math.abs(tile1.x - tile2.x);
   var yDiff = Math.abs(tile1.y - tile2.y);
-  //console.log(xDiff + ', ' + yDiff);
   return ((xDiff == 0 && yDiff == 1) || (yDiff == 0 && xDiff == 1));
 }
 
@@ -440,7 +406,6 @@ function tileClickHandler(event) {
 }
 
 function tileSwipeStartHandler(event){
-  //console.log('Start: ' + event.target.tile.type.name);
   event.target.style.animation = 'pulse .5s';
   event.target.style.animationIterationCount = 'infinite';
 
@@ -449,8 +414,6 @@ function tileSwipeStartHandler(event){
 }
 
 function tileSwipeEndHandler(event){
-  //console.log('End: ' + event.target.tile.type.name);
-
   event.target.style.animation = '';
 
   if ( ! xDown || ! yDown ) {
@@ -472,9 +435,6 @@ function tileSwipeEndHandler(event){
   var xAbs = Math.abs(xDiff);
   var yAbs = Math.abs(yDiff);
   var dir = -1;
-
-  //console.log('swipe x: ' + xDiff);
-  //console.log('swipe y: ' + yDiff);
 
   if (xAbs > deadZone || yAbs > deadZone){
     if ( xAbs > yAbs ) {
@@ -580,12 +540,10 @@ function swapTiles(tile1, tile2) {
 function replaceTile(oldTile, newTile) {
   if (oldTile == undefined || newTile == undefined)
     return;
-  //oldTile.element.color = 'transparent';
   newTile.x = oldTile.x;
   newTile.y = newTile.y;
   newTile.updateElement;
   tiles[oldTile.x][oldTile.y] = newTile;
-  //setTimeout(oldTile.dissolve, 1000);
   oldTile.element.remove();
 }
 
@@ -628,6 +586,7 @@ function turnInTile(tile) {
       var gift = getRandomWeapon();
       //console.log(gift);
       if (bestWeapon(player.weapon, gift) === gift)
+      //if (gift.name == 'Drum Gun')
         player.changeWeapon(gift);
       //console.log('Player was given a ' + gift.name);
     break;
