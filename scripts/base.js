@@ -86,7 +86,7 @@ class Player {
       return false;
     }
     this.ammo.changeValue(-1);
-    e.hurt(this.weapon.damage * globalDamageMultiplier);
+    e.hurt(Math.floor(this.weapon.damage * globalDamageMultiplier));
     return true;
   }
   isAlive() {
@@ -128,6 +128,7 @@ var movement = new TileType('movement', '👟', 'https://static.wikia.nocookie.n
 var tileTypes = [loot, health, shield, ammo, movement];
 
 var globalDamageMultiplier = 0.5;
+var attackTimeMultiplier = 5000;
 var gameRows = 7;
 var gameColumns = 7;
 var tiles;
@@ -235,7 +236,7 @@ function triggerAttack(attacker, victim) {
   if (attacker.isAlive() && victim.isAlive())
     attacker.shoot(victim);
   console.log('attack: ' + attacker.weapon.firerate);
-  setTimeout(triggerAttack, 1000 / attacker.weapon.firerate, attacker, victim);
+  setTimeout(triggerAttack, attackTimeMultiplier / attacker.weapon.firerate, attacker, victim);
 }
 
 function generateEnemy() {
@@ -610,8 +611,8 @@ function turnInTile(tile) {
 function bestWeapon(weapon1, weapon2){
   if (weapon1 == undefined || weapon2 == undefined)
     return null;
-  var dps1 = weapon1.firerate;// weapon1.damage / weapon1.firerate;
-  var dps2 = weapon2.firerate;// weapon2.damage / weapon2.firerate;
+  var dps1 = weapon1.damage * weapon1.firerate;
+  var dps2 = weapon2.damage * weapon2.firerate;
   if(dps1 < dps2)
     return weapon2;
   return weapon1;
