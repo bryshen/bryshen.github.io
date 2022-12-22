@@ -135,15 +135,17 @@ var tiles;
 var selectedTile;
 var removedTiles = [];
 
-var siteContainer;
 
 var player;
 
 var enemy = null;
 
-var puzzleContainer;
+var siteContainer;
+
 var visualContainer;
-var map;
+  var map;
+var itemsContainer;
+var puzzleContainer;
 var enemyAvatar;
 var weaponAvatar;
 
@@ -159,32 +161,30 @@ document.addEventListener("DOMContentLoaded", startGame);
 
 function startGame() {
   weapons = getWeaponList();
-  siteContainer = document.getElementById('container');
-  visualContainer = document.createElement('div');
-  visualContainer.className = 'visual-container';
-
   player = new Player('You');
 
-  map = document.createElement('img');
+  siteContainer = document.getElementById('container');
+  visualContainer = document.getElementById('visual-container')
+
+  map = document.getElementById('map');
   map.src = mapSource;
-  map.className = 'map';
   var r = Math.floor(Math.random() * 360);
   map.style.transform = 'rotate(' + r + 'deg)';
   map.style.bottom = (Math.floor(Math.random() * 400) + 200) + 'px';
-  visualContainer.appendChild(map);
-  document.body.appendChild(visualContainer);
 
-  puzzleContainer = document.createElement('div');
-  puzzleContainer.className = 'puzzle-container';
-  document.body.appendChild(puzzleContainer);
+  puzzleContainer = document.getElementById('puzzle-container');
 
   createGrid(gameRows, gameColumns, puzzleContainer);
-  addResourceBar(player.health, 'red');
-  addResourceBar(player.shield, 'blue');
+
+  var itemsContainer = document.getElementById('items-container');
+
+  var playerlifeContainer = document.getElementById('player-life-container');
+  addResourceBar(player.shield, playerlifeContainer);
+  addResourceBar(player.health, playerlifeContainer);
 
   var weaponContainer = document.createElement('div');
   weaponContainer.className = 'weapon-container';
-  document.body.appendChild(weaponContainer);
+  itemsContainer.appendChild(weaponContainer);
 
 
   var rscCounter = createResourceCounter(player.ammo, weaponContainer);
@@ -197,8 +197,11 @@ function startGame() {
     weaponAvatar.src = player.weapon.imgSrc;};
 
   player.health.changeValue(100);
-  player.shield.setValue(0);
+  player.shield.setValue(100);
   player.ammo.setValue(100);
+
+  doubleCheckBoard();
+
   setTimeout(startEncounter, 30000);
 
 }
@@ -235,7 +238,7 @@ function startEncounter() {
 function triggerAttack(attacker, victim) {
   if (attacker.isAlive() && victim.isAlive())
     attacker.shoot(victim);
-  console.log('attack: ' + attacker.weapon.firerate);
+  // console.log('attack: ' + attacker.weapon.firerate);
   setTimeout(triggerAttack, attackTimeMultiplier / attacker.weapon.firerate, attacker, victim);
 }
 
@@ -290,7 +293,7 @@ function createDamageNumber(text, top, left, container){
 }
 
 
-function addResourceBar(resource, color) {
+function addResourceBar(resource, container) {
   var resourceBar = document.createElement('div');
   resourceBar.className = 'resource-bar-' + resource.name;
   resourceBar.style.position = 'relative';
@@ -302,7 +305,7 @@ function addResourceBar(resource, color) {
   resourceBarFill.style.top = '0';
   resourceBarFill.style.left = '0';
   resourceBar.appendChild(resourceBarFill);
-  document.body.appendChild(resourceBar);
+  container.appendChild(resourceBar);
   resource.onValueChange = function() {
     resourceBarFill.style.width = (this.currentValue / this.maxValue) * 100 + '%';
   };
