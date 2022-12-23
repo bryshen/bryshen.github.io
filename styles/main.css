@@ -141,8 +141,8 @@ img {
   text-align: center;
 
   /* width: 98vmin; */
-  min-height: 60vh;
-  max-height: 100vmax;
+  min-height: 55vmax;
+  max-height: 60vmin;
   /* max-height: 10vmin; */
 
   min-width: 1vmax;
