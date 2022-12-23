@@ -1,10 +1,10 @@
 @keyframes enemySpawn {
     0% {
-      left: 500px;
+      right: -10vw;
     }
   
     100% {
-      left: 240px;
+      right: 10vw;
   
     }
   }

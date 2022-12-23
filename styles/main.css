@@ -61,7 +61,7 @@ img {
   position: relative;
   /* left: 5px; */
   /* top: 20px; */
-  height: 10vmax;
+  height: 15vmax;
   /* width: 400px; */
   width: 100%;
   border-radius: 5px;
@@ -180,7 +180,7 @@ img {
   /* border-radius: 25px; */
   cursor: pointer;
   z-index: -50;
-  width: 14.5%;;
+  width: 14.5vmin;;
   /*border: 1px solid;*/
 }
 
@@ -199,28 +199,20 @@ img {
   /* border-radius: 2px; */
 }
 
-.enemy-avatar {
-  position: absolute;
-  height: 150px;
-  top: 10px;
-  z-index: 10;
-  left: 240px;
-  /* transition: all 1s ease; */
-
-  /* filter: opacity(1) drop-shadow(0 0 0 blue); */
-  
-  /* animation: enemySpawn 1s linear 0s 1; */
-
-}
-
 .enemy-avatar-dead{
-  position: absolute;
-  height: 150px;
-  top: 10px;
-  z-index: 10;
-  left: 240px;
+  /* height: 150px; */
+  /* top: 10px; */
+  /* left: 240px; */
   filter: opacity(0) drop-shadow(0 0 0 blue);
   transition: all 2s ease;
+}
+
+.enemy-avatar, .enemy-avatar-dead{
+  position: absolute;
+  z-index: 10;
+  right: 10vw;
+  top: 0%;
+  height: 120%;
 }
 
 .floating-damage-indicator{

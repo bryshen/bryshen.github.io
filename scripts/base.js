@@ -202,7 +202,7 @@ function startGame() {
 
   doubleCheckBoard();
 
-  setTimeout(startEncounter, 30000);
+  setTimeout(startEncounter, 300);
 
 }
 
@@ -217,7 +217,10 @@ function startEncounter() {
   enemyAvatar = createAvatar(costumeImages[Math.floor(Math.random() * costumeImages.length)], visualContainer);
   enemy.onHurt = function(damage) {
     shakeIt(enemyAvatar)
-    createDamageNumber(damage, (20 + Math.random() * 20) + 'px', (230 + Math.random() * 50) + 'px', visualContainer);
+    var damNum = createDamageNumber(damage, (Math.random() * 4 + 10) + '%', (Math.random() * 15 + 60) +'vw', visualContainer);
+    // (20 + Math.random() * 20) + 'px', (230 + Math.random() * 50) + 'px'
+    //damNum.style.top = enemyAvatar.style.top;
+    //damNum.style.right = enemyAvatar.style.right;
   };
 	enemy.onDeath = function(){
     enemyAvatar.className = 'enemy-avatar-dead';
@@ -290,6 +293,7 @@ function createDamageNumber(text, top, left, container){
   container.appendChild(div);
   setTimeout(function(){div.style.top = '-100px';}, 100);
   setTimeout(function(){div.remove();}, 2000);
+  return div;
 }
 
 
