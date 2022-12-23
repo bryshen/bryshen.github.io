@@ -202,7 +202,7 @@ function startGame() {
 
   doubleCheckBoard();
 
-  setTimeout(startEncounter, 300);
+  setTimeout(startEncounter, 30000);
 
 }
 
