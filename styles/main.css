@@ -44,10 +44,16 @@ img {
 
 .map {
   /* left: 0px; */
-  position: relative;
+  /* display: block; */
+  position: absolute;
+  transform-origin: center center;
   /* width: 961px; */
-  width: 400%;
+  /* width: auto; */
+  margin: auto;
+  width: 500%;
   transition: left 5s ease;
+  /* top: 0; */
+  /* bottom: 0; */
   /*animation: slideshow 120s linear infinite; */
 }
 

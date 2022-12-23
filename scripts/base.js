@@ -170,7 +170,11 @@ function startGame() {
   map.src = mapSource;
   var r = Math.floor(Math.random() * 360);
   map.style.transform = 'rotate(' + r + 'deg)';
-  map.style.bottom = (Math.floor(Math.random() * 400) + 200) + 'px';
+  //map.style.bottom = (Math.floor(Math.random() * 1) + 50) + 'vmx';
+  map.style.top = "0";
+  map.style.bottom = "0";
+   map.style.left = "0";
+   map.style.right = "0";
 
   puzzleContainer = document.getElementById('puzzle-container');
 
@@ -600,7 +604,7 @@ function turnInTile(tile) {
     case 'movement':
       var p = map.style.left; // return value in px; i.e 50px
       p = p.substr(0, p.length - 2); // remove px ie : 50px becomes 50
-      map.style.left = (+p) - 2 + 'px' // convert p to number and add 10
+      map.style.left = (+p) - 2 + '%' // convert p to number and add 10
       break;
     case 'loot':
       var gift = getRandomWeapon();
