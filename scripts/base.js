@@ -102,16 +102,16 @@ class Tile {
     this.element = element;
     var img = document.createElement('img');
     img.src = type.src;
-    img.style.height = '62px';
-    img.style.width = '62px';
+    img.style.height = '100%';
+    img.style.width = '100%';
     //img.style.opacity = '0.5';
     element.appendChild(img);
     //element.innerHTML = type.emoji;
     this.element.tile = this;
   }
   updateElement() {
-    this.element.style.top = `${tileYOffset + this.y * 55}px`;
-    this.element.style.left = `${tileXOffset + this.x * 55}px`;
+    this.element.style.top = `${tileYOffset + this.y * (100/7)}%`;
+    this.element.style.left = `${tileXOffset + this.x * (100/7)}%`;
   }
 }
 
@@ -517,7 +517,8 @@ function createNewTile(x, y, container) {
   div.style.fontSize = '3em';
   div.style.textAlign = 'center';
   div.style.verticalAlign = 'middle';
-  div.classList.add('selectTile');
+  div.classList.add('select-tile');
+
   div.addEventListener('click', tileClickHandler);
   div.addEventListener('touchstart', tileSwipeStartHandler);
   div.addEventListener('touchend', tileSwipeEndHandler);

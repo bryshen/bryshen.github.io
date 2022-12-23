@@ -15,11 +15,21 @@ body {
 
 #container{
   margin: auto;
+  height: 100vh;
   /* max-width: 50%; */
+  /* min-width: 400vw; */
   /* min-width: 90%; */
-  width: 400px;
+  /* width: 400px; */
   /* background-color: red; */
-  padding: 10px;
+  padding: 1vmax;
+
+  /* margin: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translate(-50%, -50%); */
+
 }
 
 div {
@@ -30,14 +40,13 @@ div {
 
 img {
   pointer-events: none;
-
 }
 
 .map {
-  left: 0px;
+  /* left: 0px; */
   position: relative;
   /* width: 961px; */
-  width: 500%;
+  width: 400%;
   transition: left 5s ease;
   /*animation: slideshow 120s linear infinite; */
 }
@@ -52,7 +61,7 @@ img {
   position: relative;
   /* left: 5px; */
   /* top: 20px; */
-  height: 145px;
+  height: 10vmax;
   /* width: 400px; */
   width: 100%;
   border-radius: 5px;
@@ -68,7 +77,7 @@ img {
   /* height: 50px; */
   width: auto;
   /* width: 420px; */
-
+  height: 5vmax;
 }
 
 .resource-bar-shield {
@@ -77,7 +86,7 @@ img {
   position: relative;
   
   width: 100%;
-  height: 16px;
+  height: 30%;
   left: 8px;
   background-color: rgba(0, 0, 0, 0.5);
   transform: skewX(-20deg);
@@ -94,7 +103,7 @@ img {
   width: 100%;
 
   position: relative;
-  height: 28px;
+  height: 70%;
   /* top: 200px; */
   /* left: 12px; */
   background-color: rgba(0, 0, 0, 0.5);
@@ -110,7 +119,8 @@ img {
 .items-container{
   position: relative;
   width: 100%;
-  padding: 200px;
+  height: 10vmax;
+  /* padding: 200px; */
 }
 
 .puzzle-container {
@@ -118,24 +128,59 @@ img {
   background-size: cover;
 
   position: relative;
-  left: 5px;
-  /* top: 310px; */
-  height: 400px;
-  /* width: 400px; */
-  border-radius: 25px;
+  display: block;
+  /* width: 100%; */
+  /* height: 60vh; */
+  /* object-fit: contain; */
+
+
+  border-radius: 1vw;
   z-index: 10;
   overflow: hidden;
+  
+  text-align: center;
+
+  /* width: 98vmin; */
+  min-height: 60vh;
+  max-height: 100vmax;
+  /* max-height: 10vmin; */
+
+  min-width: 1vmax;
+  max-width: 100vmax;
+
+  margin: auto;
+
+  /* height: 100%; */
+  /* width: 100%; */
+  
+  /* margin: auto;
+  min-width: 400px;
+  min-height: 400px;
+  width: auto;
+  height: auto; */
+
 
 }
 
-.selectTile {
+/* .puzzle-container::after{
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+  user-select: none;
+  z-index: -10;
+
+} */
+
+.select-tile {
   filter: drop-shadow(5px 5px 5px #222);
+  /* object-fit: contain; */
 
   position: absolute;
   transition: all 0.5s ease;
-  border-radius: 25px;
+  /* border-radius: 25px; */
   cursor: pointer;
   z-index: -50;
+  width: 14.5%;;
   /*border: 1px solid;*/
 }
 
@@ -199,8 +244,8 @@ img {
   background-size: cover;
   position: relative;
   display: float;
-  width: 70px;
-  height: 70px;
+  width: 10vmax;
+  height: 10vmax;
   /* top: 235px; */
   /* left: 20px; */
   font-size: 22px;
