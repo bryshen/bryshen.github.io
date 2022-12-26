@@ -1,4 +1,4 @@
-/// TODO: player should have No matches when starting
+// Storm moves every 30 seconds, then a rest period, then it moves again
 
 //https://static.wikia.nocookie.net/fortnite_gamepedia/images/6/6e/Storm_holding_icon.png
 //https://static.wikia.nocookie.net/fortnite_gamepedia/images/e/e1/Storm_moving_icon.gif
@@ -112,6 +112,22 @@ class Tile {
   updateElement() {
     this.element.style.top = `${tileYOffset + this.y * (100/7)}%`;
     this.element.style.left = `${tileXOffset + this.x * (100/7)}%`;
+  }
+}
+
+class Storm{
+  constructor(){
+    this.totalProgress = 0;
+    this.stage = 0;
+    this.isMoving = false;
+    this.OnProgressChange = null;
+  }
+  damage(){
+    const d = [1, 1, 2, 5, 8, 10, 10, 10, 10, 10, 10, 10];
+    return d[this.stage];
+  }
+  advanceStorm(){
+    
   }
 }
 
