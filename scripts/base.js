@@ -142,6 +142,8 @@ var enemy = null;
 
 var siteContainer;
 
+
+var stormTrackerContainer;
 var visualContainer;
   var map;
 var itemsContainer;
@@ -151,6 +153,11 @@ var weaponAvatar;
 
 var weaponContainer;
 
+var stormScreen;
+var stormProgress;
+
+var runningMan;
+var runProgress;
 // Controls
 var xDown = null;                                                        
 var yDown = null;
@@ -164,6 +171,21 @@ function startGame() {
   player = new Player('You');
 
   siteContainer = document.getElementById('container');
+
+  stormTrackerContainer = document.getElementById('storm-tracker-container');
+  runningMan = document.createElement('img');
+
+  runningMan.src = '/images/running-man.png';
+  runningMan.classList.add('storm-tracker-icon');
+  runProgress = 0;
+  stormProgress = 0;
+
+  stormTrackerContainer.appendChild(runningMan);
+
+  stormScreen = document.createElement('div');
+  stormScreen.classList.add('storm-tracker-screen');
+  stormTrackerContainer.appendChild(stormScreen);
+
   visualContainer = document.getElementById('visual-container')
 
   map = document.getElementById('map');
@@ -605,6 +627,8 @@ function turnInTile(tile) {
       var p = map.style.left; // return value in px; i.e 50px
       p = p.substr(0, p.length - 2); // remove px ie : 50px becomes 50
       map.style.left = (+p) - 2 + '%' // convert p to number and add 10
+      runProgress += 1;
+      runningMan.style.left = runProgress + '%';
       break;
     case 'loot':
       var gift = getRandomWeapon();
