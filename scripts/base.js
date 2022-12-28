@@ -6,8 +6,8 @@
 import { getDefaultWeapon, getRandomWeapon, getWeaponList, Weapon } from './weapons.js';
 import { GameEvent, GameSession, Player } from './match3-br.js';
 const mapSource = './images/map.jpg';
-const stormWaitImg = '/images/storm_holding_icon.webp';
-const stormMoveImg = '/images/storm_moving_icon.webp'
+const stormWaitImg = './images/storm_holding_icon.webp';
+const stormMoveImg = './images/storm_moving_icon.webp'
 
 
 // const mapSource = 'https://pbs.twimg.com/media/FjHqlfPaAAAFOPR?format=jpg&name=large';
