@@ -50,14 +50,21 @@ export class Timer {
 export class GameSession {
 	constructor() {
 		this.timer = new Timer();
-		this.players = []; // TODO: Fill this with generated players and local player
 		this.localPlayer = new Player('You');
+		this.players = [this.localPlayer]; // TODO: Fill this with generated players and local player
 		this.storm = new Storm(this);
+		this.timer.onTick.subscribe(this.checkStormDamage.bind(this));
 	}
 	start() {
 		this.timer.start();
-		console.log('Timer: ' + this.storm.stormCountdown);
+		// console.log('Timer: ' + this.storm.stormCountdown);
 		// this.timer.onTick.subscribe(function(){this.storm.tick();});
+	}
+	checkStormDamage(){
+		this.players.forEach(player => {
+			if (player.travelled < this.storm.totalProgress)
+				player.drain(this.storm.damage());
+		});
 	}
 }
 
@@ -94,7 +101,7 @@ export class Player {
 		this.shield = new Resource('shield', 100, 100);
 		this.ammo = new Resource('ammo', 100, 100);
 		this.weapon = getDefaultWeapon();
-
+		this.travelled = 0;
 		this.encounter = null;
 		this.eliminations = 0;
 
@@ -103,6 +110,11 @@ export class Player {
 		this.onDeath = new GameEvent();
 		this.onWeaponChange = new GameEvent();
 		this.onEnemeyEliminated = new GameEvent();
+		this.onTravelled   = new GameEvent();
+	}
+	travel(amount){
+		this.travelled += amount;
+		this.onTravelled.triggerEvent(this.travelled);
 	}
 	changeWeapon(weapon) {
 		if (this.weapon === weapon)
@@ -118,6 +130,12 @@ export class Player {
 		} else {
 			this.health.changeValue(-damage);
 		}
+		this.onHurt.triggerEvent(damage);
+		if (!this.isAlive())
+			this.onDeath.triggerEvent();
+	}
+	drain(damage){
+		this.health.changeValue(-damage);
 		this.onHurt.triggerEvent(damage);
 		if (!this.isAlive())
 			this.onDeath.triggerEvent();

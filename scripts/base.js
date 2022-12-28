@@ -89,11 +89,10 @@ var weaponAvatar;
 var weaponContainer;
 
 var stormScreen;
-var stormProgress;
 var stormStateIndicator;
 var stormStateIndicatorImg;
 var runningMan;
-var runProgress;
+
 // Controls
 var xDown = null;
 var yDown = null;
@@ -115,10 +114,11 @@ function startGame() {
 
   runningMan.src = '/images/running-man.png';
   runningMan.classList.add('storm-tracker-icon');
-  runProgress = 0;
-  stormProgress = 0;
-
+  runningMan.left = 0;
   stormTrackerContainer.appendChild(runningMan);
+  session.localPlayer.onTravelled.subscribe(function(t){runningMan.style.left = t + '%';});
+
+  
 
   stormScreen = document.createElement('div');
   stormScreen.style.width = '0%';
@@ -598,8 +598,8 @@ function turnInTile(tile) {
       var p = map.style.left; // return value in px; i.e 50px
       p = p.substr(0, p.length - 2); // remove px ie : 50px becomes 50
       map.style.left = (+p) - 2 + '%' // convert p to number and add 10
-      runProgress += 0.5;
-      runningMan.style.left = runProgress + '%';
+
+      session.localPlayer.travel(0.75);
       break;
     case 'loot':
       var gift = getRandomWeapon();
