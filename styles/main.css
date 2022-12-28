@@ -60,7 +60,8 @@ img {
   /* left: 25%; */
   /* height: 90%; */
   /* top: 1.5vmax; */
-  height: 4vmax;
+  bottom: 0;
+  height: 3.5vmax;
   z-index: 10;
   transition: left 5s ease;
 
@@ -116,13 +117,24 @@ img {
   position: relative;
   width: auto;
   /* width: 100%; */
+  /* display: inline-block; */
+  /* white-space: nowrap; */
+  text-align: center;
   height: 2vmax;
 }
 
 .match-info-section{
+  padding-left: .5vmax;
   height: 100%;
   color: white;
+  text-align: center;
   text-shadow: 2px 2px 6px #000000;
+  display: inline-block;
+}
+
+.storm-state-icon{
+  background-image: url(/images/storm_holding_icon.webp);
+  background-size: contain;
 }
 
 #player-life-container{

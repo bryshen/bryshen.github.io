@@ -6,6 +6,10 @@
 import { getDefaultWeapon, getRandomWeapon, getWeaponList, Weapon } from './weapons.js';
 import { GameEvent, GameSession, Player } from './match3-br.js';
 const mapSource = './images/map.jpg';
+const stormWaitImg = '/images/storm_holding_icon.webp';
+const stormMoveImg = '/images/storm_moving_icon.webp'
+
+
 // const mapSource = 'https://pbs.twimg.com/media/FjHqlfPaAAAFOPR?format=jpg&name=large';
 const costumeImages = ['https://static.wikia.nocookie.net/fortnite/images/9/90/Blue_Squire_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/d/d5/New_Sparkle_Specialist.png', 'https://static.wikia.nocookie.net/fortnite/images/1/11/Rust_Lord_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/d/d9/Elite_Agent_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/6/62/Zoey_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/4/47/The_Visitor_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/f/f2/Redline_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/d/d8/Rook_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/7/7f/DJ_Yonder_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/3/38/The_Autumn_Queen.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/1/1d/T-Soldier-HID-825-Athena-Commando-F-SportsFashion-L.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/5/5e/New_Ice_Queen.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/f/fc/New_Cloacked_Star.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/1/1a/New_Kuno.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/f/fe/T_Kairos_ConstructorM_L.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/c/cf/New_Lynx.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/5/5e/Newer_Raptor.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/8/8e/Rue.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/5/51/New_Fishstick.png'];
 
@@ -45,8 +49,8 @@ class Tile {
     this.element.tile = this;
   }
   updateElement() {
-    this.element.style.top = `${tileYOffset + this.y * (100/7)}%`;
-    this.element.style.left = `${tileXOffset + this.x * (100/7)}%`;
+    this.element.style.top = `${tileYOffset + this.y * (100 / 7)}%`;
+    this.element.style.left = `${tileXOffset + this.x * (100 / 7)}%`;
   }
 }
 
@@ -76,7 +80,7 @@ var siteContainer;
 
 var stormTrackerContainer;
 var visualContainer;
-  var map;
+var map;
 var itemsContainer;
 var puzzleContainer;
 var enemyAvatar;
@@ -86,11 +90,12 @@ var weaponContainer;
 
 var stormScreen;
 var stormProgress;
-
+var stormStateIndicator;
+var stormStateIndicatorImg;
 var runningMan;
 var runProgress;
 // Controls
-var xDown = null;                                                        
+var xDown = null;
 var yDown = null;
 
 var weapons;
@@ -101,7 +106,6 @@ document.addEventListener("DOMContentLoaded", startGame);
 
 function startGame() {
   session = new GameSession();
-
   weapons = getWeaponList();
 
   siteContainer = document.getElementById('container');
@@ -121,8 +125,7 @@ function startGame() {
   stormScreen.classList.add('storm-tracker-screen');
   stormTrackerContainer.appendChild(stormScreen);
 
-  session.storm.onProgressChange.subscribe(function(progress){stormScreen.style.width = progress + '%'});
-
+  session.storm.onProgressChange.subscribe(function (progress) { stormScreen.style.width = progress + '%' });
 
   visualContainer = document.getElementById('visual-container')
 
@@ -133,8 +136,8 @@ function startGame() {
   //map.style.bottom = (Math.floor(Math.random() * 1) + 50) + 'vmx';
   map.style.top = "0";
   map.style.bottom = "0";
-   map.style.left = "0";
-   map.style.right = "0";
+  map.style.left = "0";
+  map.style.right = "0";
 
   puzzleContainer = document.getElementById('puzzle-container');
 
@@ -157,8 +160,9 @@ function startGame() {
   weaponAvatar.src = session.localPlayer.weapon.imgSrc;
   weaponContainer.appendChild(weaponAvatar);
 
-  session.localPlayer.onWeaponChange.subscribe(function(){
-    weaponAvatar.src = session.localPlayer.weapon.imgSrc;});
+  session.localPlayer.onWeaponChange.subscribe(function () {
+    weaponAvatar.src = session.localPlayer.weapon.imgSrc;
+  });
 
   session.localPlayer.health.changeValue(100);
   session.localPlayer.shield.setValue(100);
@@ -166,12 +170,26 @@ function startGame() {
 
 
   var matchInfo = document.getElementById('match-info-container');
+
+  stormStateIndicator = document.createElement('div');
+  stormStateIndicator.classList.add('match-info-section');
+  // stormStateIndicator.classList.add('storm-state-icon');
+  // stormStateIndicator.innerText = 'fuck';
+  // session.storm.onStormMovementChanged.subscribe(function(state){stormStateIndicator.classList.toggle('moving', state)})
+  matchInfo.appendChild(stormStateIndicator);
+
+  stormStateIndicatorImg = document.createElement('img');
+  stormStateIndicatorImg.src = stormWaitImg;
+  stormStateIndicator.appendChild(stormStateIndicatorImg);
+
+  session.storm.onStormMovementChanged.subscribe(function(state){stormStateIndicatorImg.src = state ? stormMoveImg : stormWaitImg});
+
   matchTimer = document.createElement('div');
   matchTimer.classList.add('match-info-section')
-  matchTimer.innerText = "1:23";
+  matchTimer.innerText = "0:30";
   matchInfo.appendChild(matchTimer);
-  
-  session.storm.onCountdownTick.subscribe(function(time) {matchTimer.innerText = formatTime(time)});
+
+  session.storm.onCountdownTick.subscribe(function (time) { matchTimer.innerText = formatTime(time) });
   session.start();
 
   doubleCheckBoard();
@@ -183,7 +201,7 @@ function formatTime(seconds) {
   let minutes = Math.floor(seconds / 60);
   let remainderSeconds = seconds % 60;
   if (remainderSeconds < 10) {
-    remainderSeconds = '0' + remainderSeconds; 
+    remainderSeconds = '0' + remainderSeconds;
   }
   return minutes + ':' + remainderSeconds;
 }
@@ -197,22 +215,22 @@ function startEncounter() {
   if (enemyAvatar != null)
     enemyAvatar.remove();
   enemyAvatar = createAvatar(costumeImages[Math.floor(Math.random() * costumeImages.length)], visualContainer);
-  enemy.onHurt.subscribe(function(damage) {
+  enemy.onHurt.subscribe(function (damage) {
     shakeIt(enemyAvatar)
-    var damNum = createDamageNumber(damage, (Math.random() * 4 + 10) + '%', (Math.random() * 15 + 60) +'vw', visualContainer);
+    var damNum = createDamageNumber(damage, (Math.random() * 4 + 10) + '%', (Math.random() * 15 + 60) + 'vw', visualContainer);
   });
-	enemy.onDeath.subscribe(function(){
+  enemy.onDeath.subscribe(function () {
     enemyAvatar.className = 'enemy-avatar-dead';
-    setTimeout(function(){enemyAvatar.remove()}, 2000);
+    setTimeout(function () { enemyAvatar.remove() }, 2000);
     enemy = null;
     setTimeout(startEncounter, 15000);
   });
   enemyAvatar.style.animation = 'enemySpawn .5s';
   enemyAvatar.style.animationIterationCount = '1';
-  setTimeout(function() {
+  setTimeout(function () {
     enemyAvatar.style.animation = '';
   }.bind(enemyAvatar), 500);
-  
+
   setTimeout(triggerAttack, 1000, session.localPlayer, enemy);
   setTimeout(triggerAttack, 1000, enemy, session.localPlayer);
 }
@@ -247,7 +265,7 @@ function createResourceCounter(resource, container) {
   //resourceDiv.appendChild(slash);
   //resourceDiv.appendChild(max);
   container.appendChild(resourceDiv);
-  resource.onValueChange.subscribe(function() {
+  resource.onValueChange.subscribe(function () {
     resourceDiv.innerHTML = resource.currentValue;
   });
 
@@ -263,15 +281,15 @@ function createAvatar(src, container) {
   return img;
 }
 
-function createDamageNumber(text, top, left, container){
-	var  div =  document.createElement('div');
+function createDamageNumber(text, top, left, container) {
+  var div = document.createElement('div');
   div.className = 'floating-damage-indicator';
   div.style.top = top;
   div.style.left = left;
   div.innerText = text;
   container.appendChild(div);
-  setTimeout(function(){div.style.top = '-100px';}, 100);
-  setTimeout(function(){div.remove();}, 2000);
+  setTimeout(function () { div.style.top = '-100px'; }, 100);
+  setTimeout(function () { div.remove(); }, 2000);
   return div;
 }
 
@@ -289,7 +307,7 @@ function addResourceBar(resource, container) {
   resourceBarFill.style.left = '0';
   resourceBar.appendChild(resourceBarFill);
   container.appendChild(resourceBar);
-  resource.onValueChange.subscribe(function(value) {
+  resource.onValueChange.subscribe(function (value) {
     resourceBarFill.style.width = (resource.currentValue / resource.maxValue) * 100 + '%';
   });
 }
@@ -403,7 +421,7 @@ function tileClickHandler(event) {
   selectTile(event.target.tile);
 }
 
-function tileSwipeStartHandler(event){
+function tileSwipeStartHandler(event) {
   event.target.style.animation = 'pulse .5s';
   event.target.style.animationIterationCount = 'infinite';
 
@@ -411,21 +429,21 @@ function tileSwipeStartHandler(event){
   yDown = event.changedTouches[0].screenY;
 }
 
-function tileSwipeEndHandler(event){
+function tileSwipeEndHandler(event) {
   event.target.style.animation = '';
 
-  if ( ! xDown || ! yDown ) {
-      return;
+  if (!xDown || !yDown) {
+    return;
   }
 
   if (!inputAllowed)
-  return;
+    return;
 
   inputAllowed = false;
 
   const deadZone = 10;
 
-  var xUp = event.changedTouches[0].screenX;                                    
+  var xUp = event.changedTouches[0].screenX;
   var yUp = event.changedTouches[0].screenY;
 
   var xDiff = xDown - xUp;
@@ -434,26 +452,26 @@ function tileSwipeEndHandler(event){
   var yAbs = Math.abs(yDiff);
   var dir = -1;
 
-  if (xAbs > deadZone || yAbs > deadZone){
-    if ( xAbs > yAbs ) {
+  if (xAbs > deadZone || yAbs > deadZone) {
+    if (xAbs > yAbs) {
       /*most significant*/
-        if ( xDiff > 0 ) {
-            /* right swipe */ 
-            dir = 3;
-        }
-        if (xDiff < 0) {
-            /* left swipe */
-            dir = 2;
-        }
+      if (xDiff > 0) {
+        /* right swipe */
+        dir = 3;
+      }
+      if (xDiff < 0) {
+        /* left swipe */
+        dir = 2;
+      }
     } else {
-        if ( yDiff > 0 ) {
-            /* up swipe */ 
-            dir = 0;
-        } 
-        if (yDiff < 0) { 
-            /* down swipe */
-            dir = 1;
-        }                                                                 
+      if (yDiff > 0) {
+        /* up swipe */
+        dir = 0;
+      }
+      if (yDiff < 0) {
+        /* down swipe */
+        dir = 1;
+      }
     }
   }
 
@@ -465,18 +483,18 @@ function tileSwipeEndHandler(event){
   /* reset values */
   xDown = null;
   yDown = null;
-  
+
 }
 
-function handleSwipe(tile, dir){
+function handleSwipe(tile, dir) {
   if (dir < 0)
     return false;
   var neighbors = getNeighbors(tiles, tile.x, tile.y);
   var directions = ['up', 'down', 'left', 'right'];
   //console.log('Swiped ' + directions[dir]);
-  if (swapTiles(tile, neighbors[dir])){
+  if (swapTiles(tile, neighbors[dir])) {
     setTimeout(checkBoard, 200, tile, neighbors[dir]);
-  }else{
+  } else {
     return false;
   }
   return true;
@@ -580,35 +598,35 @@ function turnInTile(tile) {
       var p = map.style.left; // return value in px; i.e 50px
       p = p.substr(0, p.length - 2); // remove px ie : 50px becomes 50
       map.style.left = (+p) - 2 + '%' // convert p to number and add 10
-      runProgress += 1;
+      runProgress += 0.5;
       runningMan.style.left = runProgress + '%';
       break;
     case 'loot':
       var gift = getRandomWeapon();
       //console.log(gift);
       if (bestWeapon(session.localPlayer.weapon, gift) === gift)
-      //if (gift.name == 'Drum Gun')
-      session.localPlayer.changeWeapon(gift);
+        //if (gift.name == 'Drum Gun')
+        session.localPlayer.changeWeapon(gift);
       //console.log('Player was given a ' + gift.name);
-    break;
+      break;
     default:
       console.log(`No Reward for ${tile.type.name}.`);
   }
 
 }
 
-function bestWeapon(weapon1, weapon2){
+function bestWeapon(weapon1, weapon2) {
   if (weapon1 == undefined || weapon2 == undefined)
     return null;
   var dps1 = weapon1.damage * weapon1.firerate;
   var dps2 = weapon2.damage * weapon2.firerate;
-  if(dps1 < dps2)
+  if (dps1 < dps2)
     return weapon2;
   return weapon1;
 }
 
 function removeNullAndUndefined(arr) {
-  return arr.filter(function(item) {
+  return arr.filter(function (item) {
     return item !== null && typeof item !== 'undefined';
   });
 }
@@ -656,8 +674,8 @@ function getNeighbors(arr, x, y) {
   var neighbors = [];
   //check top
   neighbors.push((arr[x][y - 1] !== undefined ? arr[x][y - 1] : null));
-   //check bottom
-   neighbors.push((arr[x][y + 1] !== undefined ? arr[x][y + 1] : null));
+  //check bottom
+  neighbors.push((arr[x][y + 1] !== undefined ? arr[x][y + 1] : null));
   //check right
   neighbors.push((arr[x + 1] !== undefined && arr[x + 1][y] !== undefined ? arr[x + 1][y] : null));
   //check left
@@ -735,7 +753,7 @@ function getAdjacentTiles(tile) {
 function shakeIt(e) {
   e.style.animation = 'shake 0.5s';
   e.style.animationIterationCount = 'infinite';
-  setTimeout(function() {
+  setTimeout(function () {
     e.style.animation = '';
   }.bind(e), 500);
 }
