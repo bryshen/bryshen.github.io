@@ -147,7 +147,7 @@ class Match{
   timerTick() {
     this.timer++;
     // Fired on every tick
-    console.log(this.timer + ' - Timer tick...');
+    // console.log(this.timer + ' - Timer tick...');
     this.onTick();
   }
 }
