@@ -2,6 +2,7 @@
 
 html, body {
   overflow: hidden;
+  font-family: 'Luckiest Guy', sans-serif;
 }
 
 body {
@@ -110,6 +111,20 @@ img {
 
 }
 
+#match-info-container{
+  /* background-color: pink; */
+  position: relative;
+  width: auto;
+  /* width: 100%; */
+  height: 2vmax;
+}
+
+.match-info-section{
+  height: 100%;
+  color: white;
+  text-shadow: 2px 2px 6px #000000;
+}
+
 #player-life-container{
 
   /* background-color: #000000; */
@@ -118,6 +133,7 @@ img {
   width: auto;
   /* width: 420px; */
   height: 5vmax;
+  
 }
 
 .resource-bar-shield {

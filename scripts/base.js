@@ -132,6 +132,26 @@ class Storm{
   }
 }
 
+class Match{
+  constructor(){
+    this.timer = 0;
+    this.onTimerTick = function() {};
+  }
+  start(){
+    // this.timer = 1;
+    setInterval(this.tick, 1000);
+  }
+  tick(){
+    if (isNaN(this.timer))
+      this.timer = 0;
+    this.timer++;
+    console.log(this.timer +'s');
+    
+     if (this.OnTimerTick !== null && typeof this.onTimerTick == 'function')
+       this.onTimerTick();
+  }
+}
+
 var tileYOffset = 1;
 var tileXOffset = 0;
 var inputAllowed = true;
@@ -180,7 +200,9 @@ var xDown = null;
 var yDown = null;
 
 var weapons;
+var currentMatch;
 
+var matchTimer;
 document.addEventListener("DOMContentLoaded", startGame);
 
 function startGame() {
@@ -243,10 +265,25 @@ function startGame() {
   player.shield.setValue(100);
   player.ammo.setValue(100);
 
-  doubleCheckBoard();
 
+  var matchInfo = document.getElementById('match-info-container');
+  matchTimer = document.createElement('div');
+  matchTimer.classList.add('match-info-section')
+  matchTimer.innerText = "1:23";
+  matchInfo.appendChild(matchTimer);
+  
+  currentMatch = new Match();
+  // currentMatch.onTimerTick = function() {};
+  setInterval(updateCounter, 1000);
+  currentMatch.start();
+
+  doubleCheckBoard();
   setTimeout(startEncounter, 30000);
 
+}
+
+function updateCounter(){
+  matchTimer.innerText = currentMatch.timer;
 }
 
 function startEncounter() {
@@ -270,7 +307,7 @@ function startEncounter() {
     setTimeout(function(){enemyAvatar.remove()}, 2000);
     enemy = null;
     setTimeout(startEncounter, 15000);
-  }
+  };
   enemyAvatar.style.animation = 'enemySpawn .5s';
   enemyAvatar.style.animationIterationCount = '1';
   setTimeout(function() {
