@@ -71,10 +71,10 @@ img {
   background-image: url('/images/storm-background.gif');
   position: absolute;
   height: 5vmax;
-  width: 17%;
+  /* width: 17%; */
   left: 0;
   animation: animatedBackground 10s linear infinite reverse;
-  transition: all 5s ease;
+  transition: width 1s linear;
 }
 
 .map {

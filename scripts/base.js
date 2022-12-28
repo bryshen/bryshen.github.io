@@ -4,7 +4,7 @@
 //https://static.wikia.nocookie.net/fortnite_gamepedia/images/e/e1/Storm_moving_icon.gif
 
 import { getDefaultWeapon, getRandomWeapon, getWeaponList, Weapon } from './weapons.js';
-import { Match, Timer, GameEvent } from './match3-br.js';
+import { GameEvent, GameSession, Player } from './match3-br.js';
 const mapSource = './images/map.jpg';
 // const mapSource = 'https://pbs.twimg.com/media/FjHqlfPaAAAFOPR?format=jpg&name=large';
 const costumeImages = ['https://static.wikia.nocookie.net/fortnite/images/9/90/Blue_Squire_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/d/d5/New_Sparkle_Specialist.png', 'https://static.wikia.nocookie.net/fortnite/images/1/11/Rust_Lord_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/d/d9/Elite_Agent_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/6/62/Zoey_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/4/47/The_Visitor_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/f/f2/Redline_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/d/d8/Rook_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/7/7f/DJ_Yonder_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/3/38/The_Autumn_Queen.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/1/1d/T-Soldier-HID-825-Athena-Commando-F-SportsFashion-L.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/5/5e/New_Ice_Queen.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/f/fc/New_Cloacked_Star.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/1/1a/New_Kuno.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/f/fe/T_Kairos_ConstructorM_L.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/c/cf/New_Lynx.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/5/5e/Newer_Raptor.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/8/8e/Rue.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/5/51/New_Fishstick.png'];
@@ -29,73 +29,6 @@ class MatchGroup {
   }
 }
 
-class Resource {
-  constructor(name, maxValue, currentValue) {
-    this.name = name;
-    this.maxValue = maxValue;
-    this.currentValue = currentValue;
-    this.onValueChange = function() {};
-  }
-
-  changeValue(amount) {
-    if (this.currentValue + amount > this.maxValue) {
-      this.currentValue = this.maxValue;
-    } else if (this.currentValue + amount < 0) {
-      this.currentValue = 0;
-    } else {
-      this.currentValue += amount;
-    }
-    if (this.onValueChange !== null)
-      this.onValueChange();
-  }
-
-  setValue(amount) {
-    this.changeValue(amount - this.currentValue);
-  }
-}
-
-class Player {
-  constructor(name) {
-    this.name = name;
-    this.health = new Resource('health', 100, 100);
-    this.shield = new Resource('shield', 100, 100);
-    this.ammo = new Resource('ammo', 100, 100);
-    this.weapon = getDefaultWeapon();
-    this.onHurt = function(damage) {};
-    this.onDeath = function() {};
-    this.onWeaponChange = function() {};
-  }
-  changeWeapon(weapon){
-    if (this.weapon === weapon)
-      return;
-    this.weapon = weapon;
-    this.onWeaponChange();
-  }
-  hurt(damage) {
-    if (damage <= 0)
-      return false;
-    if (this.shield.currentValue > 0) {
-      this.shield.changeValue(-damage);
-    } else {
-      this.health.changeValue(-damage);
-    }
-    this.onHurt(damage);
-    if (!this.isAlive())
-    	this.onDeath();
-  }
-  shoot(e) {
-    if (this.ammo.currentValue <= 0) {
-      return false;
-    }
-    this.ammo.changeValue(-1);
-    e.hurt(Math.floor(this.weapon.damage * globalDamageMultiplier));
-    return true;
-  }
-  isAlive() {
-    return this.health.currentValue > 0;
-  }
-}
-
 class Tile {
   constructor(element, type, x, y) {
     this.x = x;
@@ -117,22 +50,6 @@ class Tile {
   }
 }
 
-class Storm{
-  constructor(){
-    this.totalProgress = 0;
-    this.stage = 0;
-    this.isMoving = false;
-    this.OnProgressChange = null;
-  }
-  damage(){
-    const d = [1, 1, 2, 5, 8, 10, 10, 10, 10, 10, 10, 10];
-    return d[this.stage];
-  }
-  advanceStorm(){
-    
-  }
-}
-
 var tileYOffset = 1;
 var tileXOffset = 0;
 var inputAllowed = true;
@@ -145,16 +62,12 @@ var mats = new TileType('mats', '🪵', 'https://static.wikia.nocookie.net/fortn
 var movement = new TileType('movement', '👟', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/f/f2/Wood_icon.png');
 var tileTypes = [loot, health, shield, ammo, movement];
 
-var globalDamageMultiplier = 0.5;
 var attackTimeMultiplier = 5000;
 var gameRows = 7;
 var gameColumns = 7;
 var tiles;
 var selectedTile;
 var removedTiles = [];
-
-
-var player;
 
 var enemy = null;
 
@@ -181,14 +94,15 @@ var xDown = null;
 var yDown = null;
 
 var weapons;
-var currentMatch;
+var session;
 
 var matchTimer;
 document.addEventListener("DOMContentLoaded", startGame);
 
 function startGame() {
+  session = new GameSession();
+
   weapons = getWeaponList();
-  player = new Player('You');
 
   siteContainer = document.getElementById('container');
 
@@ -203,8 +117,12 @@ function startGame() {
   stormTrackerContainer.appendChild(runningMan);
 
   stormScreen = document.createElement('div');
+  stormScreen.style.width = '0%';
   stormScreen.classList.add('storm-tracker-screen');
   stormTrackerContainer.appendChild(stormScreen);
+
+  session.storm.onProgressChange.subscribe(function(progress){stormScreen.style.width = progress + '%'});
+
 
   visualContainer = document.getElementById('visual-container')
 
@@ -225,26 +143,26 @@ function startGame() {
   var itemsContainer = document.getElementById('items-container');
 
   var playerlifeContainer = document.getElementById('player-life-container');
-  addResourceBar(player.shield, playerlifeContainer);
-  addResourceBar(player.health, playerlifeContainer);
+  addResourceBar(session.localPlayer.shield, playerlifeContainer);
+  addResourceBar(session.localPlayer.health, playerlifeContainer);
 
   var weaponContainer = document.createElement('div');
   weaponContainer.className = 'weapon-container';
   itemsContainer.appendChild(weaponContainer);
 
 
-  var rscCounter = createResourceCounter(player.ammo, weaponContainer);
+  var rscCounter = createResourceCounter(session.localPlayer.ammo, weaponContainer);
   weaponAvatar = document.createElement('img');
   weaponAvatar.classList.add('weapon-image');
-  weaponAvatar.src = player.weapon.imgSrc;
+  weaponAvatar.src = session.localPlayer.weapon.imgSrc;
   weaponContainer.appendChild(weaponAvatar);
 
-  player.onWeaponChange = function(){
-    weaponAvatar.src = player.weapon.imgSrc;};
+  session.localPlayer.onWeaponChange.subscribe(function(){
+    weaponAvatar.src = session.localPlayer.weapon.imgSrc;});
 
-  player.health.changeValue(100);
-  player.shield.setValue(100);
-  player.ammo.setValue(100);
+  session.localPlayer.health.changeValue(100);
+  session.localPlayer.shield.setValue(100);
+  session.localPlayer.ammo.setValue(100);
 
 
   var matchInfo = document.getElementById('match-info-container');
@@ -253,11 +171,8 @@ function startGame() {
   matchTimer.innerText = "1:23";
   matchInfo.appendChild(matchTimer);
   
-  currentMatch = new Match();
-  //currentMatch.onTick = function() {matchTimer.innerText = formatTime(currentMatch.timer)};
-  currentMatch.timer.onTick.subscribe(function(time) {matchTimer.innerText = formatTime(time)});
-  //setInterval(updateCounter, 1000);
-  currentMatch.start();
+  session.storm.onCountdownTick.subscribe(function(time) {matchTimer.innerText = formatTime(time)});
+  session.start();
 
   doubleCheckBoard();
   setTimeout(startEncounter, 30000);
@@ -282,27 +197,24 @@ function startEncounter() {
   if (enemyAvatar != null)
     enemyAvatar.remove();
   enemyAvatar = createAvatar(costumeImages[Math.floor(Math.random() * costumeImages.length)], visualContainer);
-  enemy.onHurt = function(damage) {
+  enemy.onHurt.subscribe(function(damage) {
     shakeIt(enemyAvatar)
     var damNum = createDamageNumber(damage, (Math.random() * 4 + 10) + '%', (Math.random() * 15 + 60) +'vw', visualContainer);
-    // (20 + Math.random() * 20) + 'px', (230 + Math.random() * 50) + 'px'
-    //damNum.style.top = enemyAvatar.style.top;
-    //damNum.style.right = enemyAvatar.style.right;
-  };
-	enemy.onDeath = function(){
+  });
+	enemy.onDeath.subscribe(function(){
     enemyAvatar.className = 'enemy-avatar-dead';
     setTimeout(function(){enemyAvatar.remove()}, 2000);
     enemy = null;
     setTimeout(startEncounter, 15000);
-  };
+  });
   enemyAvatar.style.animation = 'enemySpawn .5s';
   enemyAvatar.style.animationIterationCount = '1';
   setTimeout(function() {
     enemyAvatar.style.animation = '';
   }.bind(enemyAvatar), 500);
   
-  setTimeout(triggerAttack, 1000, player, enemy);
-  setTimeout(triggerAttack, 1000, enemy, player);
+  setTimeout(triggerAttack, 1000, session.localPlayer, enemy);
+  setTimeout(triggerAttack, 1000, enemy, session.localPlayer);
 }
 
 function triggerAttack(attacker, victim) {
@@ -335,9 +247,9 @@ function createResourceCounter(resource, container) {
   //resourceDiv.appendChild(slash);
   //resourceDiv.appendChild(max);
   container.appendChild(resourceDiv);
-  resource.onValueChange = function() {
+  resource.onValueChange.subscribe(function() {
     resourceDiv.innerHTML = resource.currentValue;
-  };
+  });
 
 
   return resourceDiv;
@@ -377,9 +289,9 @@ function addResourceBar(resource, container) {
   resourceBarFill.style.left = '0';
   resourceBar.appendChild(resourceBarFill);
   container.appendChild(resourceBar);
-  resource.onValueChange = function() {
-    resourceBarFill.style.width = (this.currentValue / this.maxValue) * 100 + '%';
-  };
+  resource.onValueChange.subscribe(function(value) {
+    resourceBarFill.style.width = (resource.currentValue / resource.maxValue) * 100 + '%';
+  });
 }
 
 function createSelectionOutline(container) {
@@ -656,13 +568,13 @@ function collapseGroups() {
 function turnInTile(tile) {
   switch (tile.type.name) {
     case 'health':
-      player.health.changeValue(2);
+      session.localPlayer.health.changeValue(2);
       break;
     case 'shield':
-      player.shield.changeValue(3);
+      session.localPlayer.shield.changeValue(3);
       break;
     case 'ammo':
-      player.ammo.changeValue(1);
+      session.localPlayer.ammo.changeValue(1);
       break;
     case 'movement':
       var p = map.style.left; // return value in px; i.e 50px
@@ -674,9 +586,9 @@ function turnInTile(tile) {
     case 'loot':
       var gift = getRandomWeapon();
       //console.log(gift);
-      if (bestWeapon(player.weapon, gift) === gift)
+      if (bestWeapon(session.localPlayer.weapon, gift) === gift)
       //if (gift.name == 'Drum Gun')
-        player.changeWeapon(gift);
+      session.localPlayer.changeWeapon(gift);
       //console.log('Player was given a ' + gift.name);
     break;
     default:
