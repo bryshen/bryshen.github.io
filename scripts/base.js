@@ -134,21 +134,21 @@ class Storm{
 
 class Match{
   constructor(){
+    this.time = 1000;
+    this.interval = null;
     this.timer = 0;
-    this.onTimerTick = function() {};
+    this.onTick = function(){};
   }
   start(){
-    // this.timer = 1;
-    setInterval(this.tick, 1000);
+    this.interval = setInterval(() => {
+      this.timerTick();
+    }, this.time);
   }
-  tick(){
-    if (isNaN(this.timer))
-      this.timer = 0;
+  timerTick() {
     this.timer++;
-    console.log(this.timer +'s');
-    
-     if (this.OnTimerTick !== null && typeof this.onTimerTick == 'function')
-       this.onTimerTick();
+    // Fired on every tick
+    console.log(this.timer + ' - Timer tick...');
+    this.onTick();
   }
 }
 
@@ -273,8 +273,8 @@ function startGame() {
   matchInfo.appendChild(matchTimer);
   
   currentMatch = new Match();
-  // currentMatch.onTimerTick = function() {};
-  setInterval(updateCounter, 1000);
+  currentMatch.onTick = function() {matchTimer.innerText = formatTime(currentMatch.timer)};
+  //setInterval(updateCounter, 1000);
   currentMatch.start();
 
   doubleCheckBoard();
@@ -282,8 +282,13 @@ function startGame() {
 
 }
 
-function updateCounter(){
-  matchTimer.innerText = currentMatch.timer;
+function formatTime(seconds) {
+  let minutes = Math.floor(seconds / 60);
+  let remainderSeconds = seconds % 60;
+  if (remainderSeconds < 10) {
+    remainderSeconds = '0' + remainderSeconds; 
+  }
+  return minutes + ':' + remainderSeconds;
 }
 
 function startEncounter() {
