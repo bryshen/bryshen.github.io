@@ -4,6 +4,7 @@
 //https://static.wikia.nocookie.net/fortnite_gamepedia/images/e/e1/Storm_moving_icon.gif
 
 import { getDefaultWeapon, getRandomWeapon, getWeaponList, Weapon } from './weapons.js';
+import { Match, Timer, GameEvent } from './match3-br.js';
 const mapSource = './images/map.jpg';
 // const mapSource = 'https://pbs.twimg.com/media/FjHqlfPaAAAFOPR?format=jpg&name=large';
 const costumeImages = ['https://static.wikia.nocookie.net/fortnite/images/9/90/Blue_Squire_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/d/d5/New_Sparkle_Specialist.png', 'https://static.wikia.nocookie.net/fortnite/images/1/11/Rust_Lord_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/d/d9/Elite_Agent_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/6/62/Zoey_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/4/47/The_Visitor_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/f/f2/Redline_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/d/d8/Rook_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/7/7f/DJ_Yonder_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/3/38/The_Autumn_Queen.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/1/1d/T-Soldier-HID-825-Athena-Commando-F-SportsFashion-L.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/5/5e/New_Ice_Queen.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/f/fc/New_Cloacked_Star.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/1/1a/New_Kuno.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/f/fe/T_Kairos_ConstructorM_L.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/c/cf/New_Lynx.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/5/5e/Newer_Raptor.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/8/8e/Rue.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/5/51/New_Fishstick.png'];
@@ -132,26 +133,6 @@ class Storm{
   }
 }
 
-class Match{
-  constructor(){
-    this.time = 1000;
-    this.interval = null;
-    this.timer = 0;
-    this.onTick = function(){};
-  }
-  start(){
-    this.interval = setInterval(() => {
-      this.timerTick();
-    }, this.time);
-  }
-  timerTick() {
-    this.timer++;
-    // Fired on every tick
-    // console.log(this.timer + ' - Timer tick...');
-    this.onTick();
-  }
-}
-
 var tileYOffset = 1;
 var tileXOffset = 0;
 var inputAllowed = true;
@@ -273,7 +254,8 @@ function startGame() {
   matchInfo.appendChild(matchTimer);
   
   currentMatch = new Match();
-  currentMatch.onTick = function() {matchTimer.innerText = formatTime(currentMatch.timer)};
+  //currentMatch.onTick = function() {matchTimer.innerText = formatTime(currentMatch.timer)};
+  currentMatch.timer.onTick.subscribe(function(time) {matchTimer.innerText = formatTime(time)});
   //setInterval(updateCounter, 1000);
   currentMatch.start();
 
