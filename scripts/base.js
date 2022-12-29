@@ -103,11 +103,7 @@ var session;
 var matchTimer;
 document.addEventListener("DOMContentLoaded", startGame);
 
-function startGame() {
-  session = new GameSession();
-  weapons = getWeaponList();
-
-  siteContainer = document.getElementById('container');
+function setupStormTracker() {
 
   stormTrackerContainer = document.getElementById('storm-tracker-container');
   runningMan = document.createElement('img');
@@ -116,9 +112,9 @@ function startGame() {
   runningMan.classList.add('storm-tracker-icon');
   runningMan.left = 0;
   stormTrackerContainer.appendChild(runningMan);
-  session.localPlayer.onTravelled.subscribe(function(t){runningMan.style.left = t + '%';});
+  session.localPlayer.onTravelled.subscribe(function (t) { runningMan.style.left = t + '%'; });
 
-  
+
 
   stormScreen = document.createElement('div');
   stormScreen.style.width = '0%';
@@ -126,6 +122,10 @@ function startGame() {
   stormTrackerContainer.appendChild(stormScreen);
 
   session.storm.onProgressChange.subscribe(function (progress) { stormScreen.style.width = progress + '%' });
+
+}
+
+function setupVisualBlock() {
 
   visualContainer = document.getElementById('visual-container')
 
@@ -139,42 +139,9 @@ function startGame() {
   map.style.left = "0";
   map.style.right = "0";
 
-  puzzleContainer = document.getElementById('puzzle-container');
+}
 
-  createGrid(gameRows, gameColumns, puzzleContainer);
-
-  var itemsContainer = document.getElementById('items-container');
-
-  var playerlifeContainer = document.getElementById('player-life-container');
-  addResourceBar(session.localPlayer.shield, playerlifeContainer);
-  addResourceBar(session.localPlayer.health, playerlifeContainer);
-
-  var weaponContainer = document.createElement('div');
-  weaponContainer.className = 'weapon-container';
-  itemsContainer.appendChild(weaponContainer);
-
-
-  var rscCounter = createResourceCounter(session.localPlayer.ammo, weaponContainer);
-  weaponAvatar = document.createElement('img');
-  weaponAvatar.classList.add('weapon-image');
-  weaponAvatar.src = session.localPlayer.weapon.imgSrc;
-  weaponContainer.appendChild(weaponAvatar);
-
-  session.localPlayer.onWeaponChange.subscribe(function () {
-    weaponAvatar.src = session.localPlayer.weapon.imgSrc;
-  });
-
-
-
-
-
-
-
-  session.localPlayer.health.changeValue(100);
-  session.localPlayer.shield.setValue(100);
-  session.localPlayer.ammo.setValue(100);
-
-
+function setupMatchInfo() {
   var matchInfo = document.getElementById('match-info-container');
 
   stormStateIndicator = document.createElement('div');
@@ -189,7 +156,7 @@ function startGame() {
   stormStateIndicatorImg.src = stormWaitImg;
   stormStateIndicator.appendChild(stormStateIndicatorImg);
 
-  session.storm.onStormMovementChanged.subscribe(function(state){stormStateIndicatorImg.src = state ? stormMoveImg : stormWaitImg});
+  session.storm.onStormMovementChanged.subscribe(function (state) { stormStateIndicatorImg.src = state ? stormMoveImg : stormWaitImg });
 
   matchTimer = document.createElement('div');
   matchTimer.classList.add('match-info-section')
@@ -197,6 +164,51 @@ function startGame() {
   matchInfo.appendChild(matchTimer);
 
   session.storm.onCountdownTick.subscribe(function (time) { matchTimer.innerText = formatTime(time) });
+}
+
+function setupPlayerLife(){
+  var playerlifeContainer = document.getElementById('player-life-container');
+  addResourceBar(session.localPlayer.shield, playerlifeContainer);
+  addResourceBar(session.localPlayer.health, playerlifeContainer);
+}
+
+function setupPlayerInvetory(){
+  var itemsContainer = document.getElementById('items-container');
+  var weaponContainer = document.createElement('div');
+  weaponContainer.className = 'weapon-container';
+  itemsContainer.appendChild(weaponContainer);
+  var rscCounter = createResourceCounter(session.localPlayer.ammo, weaponContainer);
+  weaponAvatar = document.createElement('img');
+  weaponAvatar.classList.add('weapon-image');
+  weaponAvatar.src = session.localPlayer.weapon.imgSrc;
+  weaponContainer.appendChild(weaponAvatar);
+  session.localPlayer.onWeaponChange.subscribe(function () {
+    weaponAvatar.src = session.localPlayer.weapon.imgSrc;
+  });
+}
+
+function setupPuzzleArea() {
+  puzzleContainer = document.getElementById('puzzle-container');
+  createGrid(gameRows, gameColumns, puzzleContainer);
+}
+
+function startGame() {
+  session = new GameSession();
+  weapons = getWeaponList();
+
+  siteContainer = document.getElementById('container');
+
+  setupStormTracker();
+  setupVisualBlock();
+  setupMatchInfo();
+  setupPlayerLife();
+  setupPlayerInvetory();
+  setupPuzzleArea();
+
+  session.localPlayer.health.changeValue(100);
+  session.localPlayer.shield.setValue(100);
+  session.localPlayer.ammo.setValue(100);
+
   session.start();
 
   doubleCheckBoard();
