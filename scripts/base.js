@@ -176,6 +176,7 @@ function setupPlayerInvetory(){
   var itemsContainer = document.getElementById('items-container');
   var weaponContainer = document.createElement('div');
   weaponContainer.className = 'weapon-container';
+  weaponContainer.classList.add('inventory-slot');
   itemsContainer.appendChild(weaponContainer);
   var rscCounter = createResourceCounter(session.localPlayer.ammo, weaponContainer);
   weaponAvatar = document.createElement('img');
@@ -185,6 +186,12 @@ function setupPlayerInvetory(){
   session.localPlayer.onWeaponChange.subscribe(function () {
     weaponAvatar.src = session.localPlayer.weapon.imgSrc;
   });
+
+  for (let i = 0; i < 3; i++) {
+    var slot = document.createElement('div');
+    slot.classList.add('inventory-slot');
+    itemsContainer.appendChild(slot);
+  }  
 }
 
 function setupPuzzleArea() {
