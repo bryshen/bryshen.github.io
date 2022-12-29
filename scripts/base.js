@@ -219,7 +219,7 @@ function startGame() {
   session.start();
 
   doubleCheckBoard();
-  setTimeout(startEncounter, 3000);
+  setTimeout(startEncounter, 30000);
 
 }
 
