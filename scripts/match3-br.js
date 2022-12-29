@@ -104,13 +104,15 @@ export class Player {
 		this.travelled = 0;
 		this.encounter = null;
 		this.eliminations = 0;
+		this.inventory = [null, null, null, null];
 
 		// Events
 		this.onHurt = new GameEvent(); // function(damage) {};
 		this.onDeath = new GameEvent();
 		this.onWeaponChange = new GameEvent();
 		this.onEnemeyEliminated = new GameEvent();
-		this.onTravelled   = new GameEvent();
+		this.onTravelled  = new GameEvent();
+		this.onInventoryUpdate = new GameEvent();
 	}
 	travel(amount){
 		this.travelled += amount;
