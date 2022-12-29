@@ -33,6 +33,7 @@ img {
   height: 4vmax;
   position: relative;
   display: block;
+  border: 2px solid white;
   border-radius: 1vw;
   overflow: hidden;
 }
