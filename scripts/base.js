@@ -206,13 +206,13 @@ function startGame() {
   setupPuzzleArea();
 
   session.localPlayer.health.changeValue(100);
-  session.localPlayer.shield.setValue(100);
-  session.localPlayer.ammo.setValue(100);
+  session.localPlayer.shield.setValue(0);
+  session.localPlayer.ammo.setValue(0);
 
   session.start();
 
   doubleCheckBoard();
-  setTimeout(startEncounter, 30000);
+  setTimeout(startEncounter, 3000);
 
 }
 

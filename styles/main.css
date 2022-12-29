@@ -29,12 +29,13 @@ img {
 }
 
 #storm-tracker-container{
-  background-color: rgba(255, 255, 255, 0.397);
+  background-color: rgba(255, 255, 255, 0.1);
   height: 4vmax;
   position: relative;
   display: block;
-  border: 2px solid white;
+  border: 2px solid rgba(255, 255, 255, 0.2);
   border-radius: 1vw;
+  z-index: 50;
   overflow: hidden;
 }
 
@@ -48,8 +49,9 @@ img {
 }
 
 .storm-tracker-screen{
-  background-color: purple;
+  background-color: rgba(128, 0, 128, 0.5);
   background-image: url('/images/storm-background.gif');
+  opacity: 75%;
   position: absolute;
   height: 5vmax;
   border-right: 2px solid #0000FE;
@@ -74,7 +76,7 @@ img {
 .visual-container {
   background-color: #031529;
   position: relative;
-  height: 15vmax;
+  height: 19vmax;
   width: 100%;
   border-radius: 5px;
   z-index: 5;
@@ -205,8 +207,9 @@ img {
   position: absolute;
   z-index: 10;
   right: 10vw;
-  top: 0%;
-  height: 120%;
+  /* top: 0%; */
+  bottom: -1vmax;
+  height: 15vmax;
 }
 
 .floating-damage-indicator{
