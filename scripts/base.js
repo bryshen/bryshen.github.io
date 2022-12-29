@@ -218,6 +218,9 @@ function startGame() {
 
   session.start();
 
+  //Waited 1 second after dying to reload page
+  session.localPlayer.onDeath.subscribe(function(){setTimeout(() => {location.reload();}, 1000);});
+
   doubleCheckBoard();
   setTimeout(startEncounter, 30000);
 
