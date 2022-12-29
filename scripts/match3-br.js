@@ -104,7 +104,7 @@ export class Player {
 		this.travelled = 0;
 		this.encounter = null;
 		this.eliminations = 0;
-		this.inventory = [null, null, null, null];
+		this.inventory = [null, null, null];
 
 		// Events
 		this.onHurt = new GameEvent(); // function(damage) {};

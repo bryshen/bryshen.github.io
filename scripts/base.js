@@ -164,6 +164,12 @@ function startGame() {
     weaponAvatar.src = session.localPlayer.weapon.imgSrc;
   });
 
+
+
+
+
+
+
   session.localPlayer.health.changeValue(100);
   session.localPlayer.shield.setValue(100);
   session.localPlayer.ammo.setValue(100);
@@ -179,6 +185,7 @@ function startGame() {
   matchInfo.appendChild(stormStateIndicator);
 
   stormStateIndicatorImg = document.createElement('img');
+  stormStateIndicatorImg.classList.add('storm-state-icon');
   stormStateIndicatorImg.src = stormWaitImg;
   stormStateIndicator.appendChild(stormStateIndicatorImg);
 
