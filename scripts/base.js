@@ -606,7 +606,7 @@ function turnInTile(tile) {
       p = p.substr(0, p.length - 2); // remove px ie : 50px becomes 50
       map.style.left = (+p) - 2 + '%' // convert p to number and add 10
 
-      session.localPlayer.travel(0.75);
+      session.localPlayer.travel(0.65);
       break;
     case 'loot':
       var gift = getRandomWeapon();
