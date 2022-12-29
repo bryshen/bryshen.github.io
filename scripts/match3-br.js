@@ -4,6 +4,17 @@ import { getDefaultWeapon, getRandomWeapon, getWeaponList, Weapon } from './weap
 
 var globalDamageMultiplier = 0.5;
 
+
+// class MatchGroup {
+// 	constructor() {
+// 	  this.tiles = [];
+// 	  this.hMatches = 0;
+// 	  this.vMatches = 0;
+// 	  this.tiles = 0;
+// 	}
+//   }
+  
+
 export class GameEvent {
 	constructor() {
 		this.subscribers = [];
@@ -192,3 +203,28 @@ class Storm {
 		this.onCountdownTick.triggerEvent(this.stormCountdown);
 	};
 }
+
+export class TileType {
+	constructor(name, emoji, src) {
+	  this.name = name;
+	  this.emoji = emoji;
+	  this.src = src;
+	}
+  }
+  
+export class Tile {
+	constructor(element, type, x, y) {
+	  this.x = x;
+	  this.y = y;
+	  this.type = type;
+	  this.element = element;
+	  var img = document.createElement('img');
+	  img.src = type.src;
+	  img.style.height = '100%';
+	  img.style.width = '100%';
+	  //img.style.opacity = '0.5';
+	  element.appendChild(img);
+	  //element.innerHTML = type.emoji;
+	  this.element.tile = this;
+	}
+  }

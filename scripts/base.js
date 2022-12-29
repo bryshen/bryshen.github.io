@@ -4,55 +4,14 @@
 //https://static.wikia.nocookie.net/fortnite_gamepedia/images/e/e1/Storm_moving_icon.gif
 
 import { getDefaultWeapon, getRandomWeapon, getWeaponList, Weapon } from './weapons.js';
-import { GameEvent, GameSession, Player } from './match3-br.js';
+import { GameEvent, GameSession, Player, Tile, TileType } from './match3-br.js';
 const mapSource = './images/map.jpg';
 const stormWaitImg = './images/storm_holding_icon.webp';
 const stormMoveImg = './images/storm_moving_icon.webp'
 
-
 // const mapSource = 'https://pbs.twimg.com/media/FjHqlfPaAAAFOPR?format=jpg&name=large';
 const costumeImages = ['https://static.wikia.nocookie.net/fortnite/images/9/90/Blue_Squire_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/d/d5/New_Sparkle_Specialist.png', 'https://static.wikia.nocookie.net/fortnite/images/1/11/Rust_Lord_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/d/d9/Elite_Agent_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/6/62/Zoey_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/4/47/The_Visitor_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/f/f2/Redline_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/d/d8/Rook_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite/images/7/7f/DJ_Yonder_%28New%29_-_Outfit_-_Fortnite.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/3/38/The_Autumn_Queen.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/1/1d/T-Soldier-HID-825-Athena-Commando-F-SportsFashion-L.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/5/5e/New_Ice_Queen.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/f/fc/New_Cloacked_Star.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/1/1a/New_Kuno.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/f/fe/T_Kairos_ConstructorM_L.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/c/cf/New_Lynx.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/5/5e/Newer_Raptor.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/8/8e/Rue.png', 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/5/51/New_Fishstick.png'];
-
 const openChestImage = 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/9/96/Treasure_chest_%28tier_1%29.png/revision/latest?cb=20180312205812';
-
-// Match Tiles Types
-class TileType {
-  constructor(name, emoji, src) {
-    this.name = name;
-    this.emoji = emoji;
-    this.src = src;
-  }
-}
-
-class MatchGroup {
-  constructor() {
-    this.tiles = [];
-    this.hMatches = 0;
-    this.vMatches = 0;
-    this.tiles = 0;
-  }
-}
-
-class Tile {
-  constructor(element, type, x, y) {
-    this.x = x;
-    this.y = y;
-    this.type = type;
-    this.element = element;
-    var img = document.createElement('img');
-    img.src = type.src;
-    img.style.height = '100%';
-    img.style.width = '100%';
-    //img.style.opacity = '0.5';
-    element.appendChild(img);
-    //element.innerHTML = type.emoji;
-    this.element.tile = this;
-  }
-  updateElement() {
-    this.element.style.top = `${tileYOffset + this.y * (100 / 7)}%`;
-    this.element.style.left = `${tileXOffset + this.x * (100 / 7)}%`;
-  }
-}
 
 var tileYOffset = 1;
 var tileXOffset = 0;
@@ -220,10 +179,16 @@ function startGame() {
 
   //Waited 1 second after dying to reload page
   session.localPlayer.onDeath.subscribe(function(){setTimeout(() => {location.reload();}, 1000);});
+  session.localPlayer.onHurt.subscribe(function(){shakeIt(runningMan)});
 
   doubleCheckBoard();
   setTimeout(startEncounter, 30000);
 
+}
+
+function updateTile(tile) {
+  tile.element.style.top = `${tileYOffset + tile.y * (100 / 7)}%`;
+  tile.element.style.left = `${tileXOffset + tile.x * (100 / 7)}%`;
 }
 
 function formatTime(seconds) {
@@ -418,7 +383,8 @@ function doubleCheckBoard() {
 function updateBoard() {
   for (var x = 0; x < tiles.length; x++) {
     for (var y = 0; y < tiles[x].length; y++) {
-      tiles[x][y].updateElement();
+      updateTile(tiles[x][y]);
+      // tiles[x][y].updateElement();
     }
   }
   for (var i = 0; i < removedTiles.length; i++) {
@@ -556,7 +522,7 @@ function createNewTile(x, y, container) {
   container.appendChild(div);
 
   var t = new Tile(div, tileTypes[Math.floor(Math.random() * tileTypes.length)], x, y);
-  t.updateElement();
+  updateTile(t);
   return t;
 
 }
@@ -574,8 +540,8 @@ function swapTiles(tile1, tile2) {
   tile2.x = x;
   tile2.y = y;
 
-  tile1.updateElement();
-  tile2.updateElement();
+  updateTile(tile1);
+  updateTile(tile2);
 
   tiles[tile1.x][tile1.y] = tile1;
   tiles[tile2.x][tile2.y] = tile2;
@@ -583,15 +549,15 @@ function swapTiles(tile1, tile2) {
   return true;
 }
 
-function replaceTile(oldTile, newTile) {
-  if (oldTile == undefined || newTile == undefined)
-    return;
-  newTile.x = oldTile.x;
-  newTile.y = newTile.y;
-  newTile.updateElement;
-  tiles[oldTile.x][oldTile.y] = newTile;
-  oldTile.element.remove();
-}
+// function replaceTile(oldTile, newTile) {
+//   if (oldTile == undefined || newTile == undefined)
+//     return;
+//   newTile.x = oldTile.x;
+//   newTile.y = newTile.y;
+//   newTile.updateElement;
+//   tiles[oldTile.x][oldTile.y] = newTile;
+//   oldTile.element.remove();
+// }
 
 function collapseGroups() {
   var groups = findGroups();
@@ -765,19 +731,19 @@ function tilesMatch(tile1, tile2) {
 
 ///// Deprecated Functions
 
-function getIndexOfK(arr, k) {
-  for (var i = 0; i < arr.length; i++) {
-    var index = arr[i].indexOf(k);
-    if (index > -1) {
-      return [i, index];
-    }
-  }
-}
+// function getIndexOfK(arr, k) {
+//   for (var i = 0; i < arr.length; i++) {
+//     var index = arr[i].indexOf(k);
+//     if (index > -1) {
+//       return [i, index];
+//     }
+//   }
+// }
 
-function getAdjacentTiles(tile) {
-  var adjacents = [tiles[tile.y + 1][tile.x], tiles[tile.y - 1][tile.x], tiles[tile.y][tile.x + 1], tiles[tile.y][tile.x - 1]];
-  return removeNullAndUndefined(adjacents);
-}
+// function getAdjacentTiles(tile) {
+//   var adjacents = [tiles[tile.y + 1][tile.x], tiles[tile.y - 1][tile.x], tiles[tile.y][tile.x + 1], tiles[tile.y][tile.x - 1]];
+//   return removeNullAndUndefined(adjacents);
+// }
 
 function shakeIt(e) {
   e.style.animation = 'shake 0.5s';
