@@ -3,6 +3,9 @@
     width: 200px;
     background-color: blue;
     border-radius: 50%;
-    z-index: 100;
     /* transition: all 0.09s linear; */
+}
+
+.draggable-item{
+    z-index: 100;
 }
