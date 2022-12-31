@@ -54,8 +54,6 @@ export class DragDropObject {
         var c = getCenter(this.element);
         this.lastX = c.x;
         this.lastY = c.y;
-        // this.lastX = x;
-        // this.lastY = y;
     }
     drag(x, y) {
         if (!this.dragging)
@@ -92,8 +90,6 @@ export class DragDropObject {
         }
         if (mostCoveredDiv != null) {
             this.onDragDrop.triggerEvent(this, mostCoveredDiv);
-            // mostCoveredDiv.style.backgroundColor = 'blue';
-            // this.element.remove();
         }else{
             this.onDragEnd.triggerEvent(this);
         }

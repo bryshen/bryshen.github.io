@@ -64,24 +64,24 @@ var matchTimer;
 document.addEventListener("DOMContentLoaded", startGame);
 
 
-spawnItem(item){
+function spawnItem(item){
   var itemDiv = document.createElement('div');
-
   container.appendChild(itemDiv);
+   itemDiv.style.left = 0;
+   itemDiv.style.top = 0;
+  //  itemDiv.style.backgroundImage = 'url(' + item.imgsrc +')';
+  var inimg = document.createElement('img');
+  inimg.src = item.imgSrc;
+  inimg.classList.add('weapon-image');
+  itemDiv.appendChild(inimg);
+
+
+  // itemDiv.classList.add('floating-item');
   var dragObj = new DragDropObject(itemDiv);
   dragObj.onDragDrop.subscribe(function(d, e){
     d.element.remove();
     e.style.backgroundColor = 'blue';
-  })
-}
-
-setupDraggableTest();
-
-function setupDraggableTest(){
-  var dragThing = new DragDropObject(document.getElementById('draggable-test'));
-  dragThing.onDragDrop.subscribe(function(d, e){
-    d.element.remove();
-    e.style.backgroundColor = 'blue';
+    
   })
 }
 
@@ -206,6 +206,8 @@ function startGame() {
 
   doubleCheckBoard();
   setTimeout(startEncounter, 30000);
+
+  spawnItem(getRandomWeapon());
 
 }
 
