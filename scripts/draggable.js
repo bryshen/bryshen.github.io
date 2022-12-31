@@ -1,5 +1,5 @@
 
-export class Draggable {
+export class DragDropObject {
     constructor(element) {
         this.element = element;
         this.element.style.position = 'absolute';
@@ -11,6 +11,11 @@ export class Draggable {
         this.element.addEventListener('touchstart', this.onTouchStart.bind(this));
         this.mouseUp = this.onMouseUp.bind(this);
         this.touchEnd = this.onTouchEnd.bind(this);
+
+
+        this.onDragStart  = new DragEvent();
+        this.onDragEnd = new DragEvent();
+        this.onDragDrop = new DragEvent();
     }
 
     onInput(event) {
@@ -37,12 +42,15 @@ export class Draggable {
         this.element.removeEventListener('mouseup', this.mouseUp);
         this.dragEnd();
     }
+
     onTouchEnd() {
         this.element.removeEventListener('touchend', this.touchEnd);
         this.dragEnd();
     }
+    
     startDrag(x, y) {
         console.log('starting drag');
+        this.onDragStart.triggerEvent(this);
         var c = getCenter(this.element);
         this.lastX = c.x;
         this.lastY = c.y;
@@ -83,8 +91,11 @@ export class Draggable {
             }
         }
         if (mostCoveredDiv != null) {
-            mostCoveredDiv.style.backgroundColor = 'blue';
-            this.element.remove();
+            this.onDragDrop.triggerEvent(this, mostCoveredDiv);
+            // mostCoveredDiv.style.backgroundColor = 'blue';
+            // this.element.remove();
+        }else{
+            this.onDragEnd.triggerEvent(this);
         }
     }
 
@@ -114,4 +125,22 @@ function getCenter(div) {
         x: rect.left + rect.width / 2,
         y: rect.top + rect.height / 2
     };
+}
+
+ class DragEvent {
+	constructor() {
+		this.subscribers = [];
+	}
+
+	subscribe(callback) {
+		this.subscribers.push(callback);
+	}
+
+	triggerEvent(...args) {
+		this.subscribers.forEach(subscriber => subscriber(...args));
+	}
+
+	unsubscribe(callback) {
+		this.subscribers = this.subscribers.filter(subscriber => subscriber !== callback);
+	}
 }

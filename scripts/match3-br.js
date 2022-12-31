@@ -24,8 +24,8 @@ export class GameEvent {
 		this.subscribers.push(callback);
 	}
 
-	triggerEvent(args) {
-		this.subscribers.forEach(subscriber => subscriber(args));
+	triggerEvent(...args) {
+		this.subscribers.forEach(subscriber => subscriber(...args));
 	}
 
 	unsubscribe(callback) {

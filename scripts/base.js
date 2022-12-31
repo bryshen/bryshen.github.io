@@ -5,7 +5,7 @@
 
 import { getDefaultWeapon, getRandomWeapon, getWeaponList, Weapon } from './weapons.js';
 import { GameEvent, GameSession, Player, Tile, TileType } from './match3-br.js';
-import { Draggable } from './draggable.js';
+import { DragDropObject } from './draggable.js';
 const mapSource = './images/map.jpg';
 const stormWaitImg = './images/storm_holding_icon.webp';
 const stormMoveImg = './images/storm_moving_icon.webp'
@@ -63,7 +63,27 @@ var session;
 var matchTimer;
 document.addEventListener("DOMContentLoaded", startGame);
 
-new Draggable(document.getElementById('draggable-test'));
+
+spawnItem(item){
+  var itemDiv = document.createElement('div');
+
+  container.appendChild(itemDiv);
+  var dragObj = new DragDropObject(itemDiv);
+  dragObj.onDragDrop.subscribe(function(d, e){
+    d.element.remove();
+    e.style.backgroundColor = 'blue';
+  })
+}
+
+setupDraggableTest();
+
+function setupDraggableTest(){
+  var dragThing = new DragDropObject(document.getElementById('draggable-test'));
+  dragThing.onDragDrop.subscribe(function(d, e){
+    d.element.remove();
+    e.style.backgroundColor = 'blue';
+  })
+}
 
 function setupStormTracker() {
 
