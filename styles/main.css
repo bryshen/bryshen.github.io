@@ -72,6 +72,11 @@ img {
   height:100%;
 }
 
+.weapon-image-small{
+  width:75%;
+  height:75%;
+}
+
 .visual-container {
   background-color: #031529;
   position: relative;
