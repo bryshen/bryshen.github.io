@@ -72,7 +72,7 @@ function spawnItem(item){
    itemDiv.style.backgroundImage = 'url(' + 'https://static.wikia.nocookie.net/fortnite/images/7/7f/Common_-_Rarity_Background_-_Fortnite.png' +')';
   var inimg = document.createElement('img');
   inimg.src = item.imgSrc;
-  inimg.classList.add('weapon-image-small');
+  inimg.classList.add('draggable-item-image');
   itemDiv.appendChild(inimg);
 
 
