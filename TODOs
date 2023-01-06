@@ -1,0 +1,13 @@
+// New Class: Inventory-Slot-Div
+    // Ability to connect div with Inventory Slot on player
+    // Can trigger adding item when droppable item added to target
+    // Triggers visual update when item is added or removed from inventory slot
+    // Tap to use item (if applicable)
+    // Hold (Hover on Desktop?) to open popup window
+
+// New Class: Game-Item Class
+    // Item Type: Weapon, Single Use Item
+    // Stack Size / Ammo
+    // 
+
+// Change Storm Tracking to change target every storm cycle. No more running too far away from the edge!
