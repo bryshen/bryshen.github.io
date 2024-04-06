@@ -10,18 +10,18 @@
   {
 	"name": "Infantry Rifle",
 	"damage": 36,
-    	"firerate": 4,
+    "firerate": 4,
 	"magazine": 8,
 	"reloadTime": 2.5,
-    	"imgSrc": "https://static.wikia.nocookie.net/fortnite_gamepedia/images/0/03/InfantryRifle.png"
+    "imgSrc": "https://static.wikia.nocookie.net/fortnite_gamepedia/images/0/03/InfantryRifle.png"
   },
   {
 	"name": "Suppressed Assault Rifle",
 	"damage": 30,
-    	"firerate": 5.5,
+    "firerate": 5.5,
 	"magazine": 30,
 	"reloadTime": 2.3,
-    	"imgSrc": "https://static.wikia.nocookie.net/fortnite_gamepedia/images/3/35/Suppressed_assault_rifle_icon.png"
+    "imgSrc": "https://static.wikia.nocookie.net/fortnite_gamepedia/images/3/35/Suppressed_assault_rifle_icon.png"
   },
   {
 	"name": "Drum Gun",
@@ -29,7 +29,7 @@
     "firerate": 8,
 	"magazine": 40,
 	"reloadTime": 3.2,
-    	"imgSrc": "https://static.wikia.nocookie.net/fortnite_gamepedia/images/6/6c/Drum_gun_icon.png"
+    "imgSrc": "https://static.wikia.nocookie.net/fortnite_gamepedia/images/6/6c/Drum_gun_icon.png"
   },
   {
 	"name": "Pump Shotgun",
@@ -37,7 +37,7 @@
     "firerate": 0.7,
 	"magazine": 5,
 	"reloadTime": 4.8,
-    	"imgSrc": "https://static.wikia.nocookie.net/fortnite_gamepedia/images/3/32/Pump_shotgun.png"
+    "imgSrc": "https://static.wikia.nocookie.net/fortnite_gamepedia/images/3/32/Pump_shotgun.png"
   },
   {
 	"name": "Assault Rifle",

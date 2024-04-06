@@ -117,6 +117,7 @@ img {
   margin: 3px;
 
   position: relative;
+  border-radius: 5px;
   
   width: 95%;
   height: 30%;
@@ -126,12 +127,13 @@ img {
 }
 
 .resource-bar-shield-fill {
-  background-color: rgba(3, 167, 220, 0.9);
+  background-color: #03a7dce6;
   transition: all 0.5s ease;
 }
 
 .resource-bar-health {
   margin: 3px;
+  border-radius: 5px;
 
   width: 95%;
   left: 0.5%;
@@ -143,7 +145,9 @@ img {
 }
 
 .resource-bar-health-fill {
-  background-color: rgba(100, 215, 42, 0.9);
+  border-radius: 5px;
+
+  background-color: #64d72ae6;
   transition: all 0.5s ease;
 }
 
@@ -155,6 +159,7 @@ img {
   /* height: 10vmin; */
   display: inline-block;
 }
+
 
 .inventory-slot{
   position: relative;
@@ -193,6 +198,13 @@ img {
 
   margin: auto;
 
+  outline: 1px solid rgb(0, 0, 0);
+  transition: outline 0.2s ease;
+
+}
+
+.locked {
+  outline: 5px solid rgb(204, 0, 0);
 }
 
 
@@ -204,6 +216,15 @@ img {
   z-index: -50;
   max-width: 14%;
 }
+
+.select-tile img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 50%;
+  /*background-color: orange;*/
+}
+
 
 .resource-item-ammo {
   position: absolute;

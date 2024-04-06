@@ -1,0 +1,6 @@
+- Replace Shields Bar with Shields Icon
+- Add number to health bar
+- Implement timeout function / class that can be paused
+- Dynamic Sized puzzle area
+- Create feedback effects that fly to effected element after tile is used
+- Shield Icon animation when taking damage
