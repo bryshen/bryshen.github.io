@@ -1,0 +1,17 @@
+// TODO
+// Refactor player and enemies base class
+// Add different enemy types
+// Create enemy list increaing in difficulty
+// Add screens between fights
+// Dynamic size for puzzle area
+// Add tile reward screen
+// Scroll background when moving to next fight
+// Add Health Bar / Shield to enemy avatar, count down to next attack
+// Feeback for all tile matches, enemy intents and attack
+
+- Replace Shields Bar with Shields Icon
+- Add number to health bar
+- Implement timeout function / class that can be paused
+- Dynamic Sized puzzle area
+- Create feedback effects that fly to effected element after tile is used
+- Shield Icon animation when taking damage

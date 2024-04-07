@@ -1,0 +1,296 @@
+@import url(//fonts.googleapis.com/css?family=Luckiest+Guy);
+
+html, body {
+  overflow: hidden;
+  font-family: 'Luckiest Guy', sans-serif;
+}
+
+body {
+  background-color: #2E282A;
+  /*background-image: url('https://static.wikia.nocookie.net/fortnite/images/2/2a/Legendary_-_Rarity_-_Fortnite.png'); */
+  background-size: cover;
+}
+
+#container{
+  margin: auto;
+  height: 100vh;
+  padding: 1vmax;
+  padding-top: 0;
+}
+
+div {
+  /*user-select: none;*/
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+img {
+  pointer-events: none;
+}
+
+#storm-tracker-container{
+  background-color: rgba(255, 255, 255, 0.1);
+  height: 4vmax;
+  position: relative;
+  display: block;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 1vw;
+  z-index: 50;
+  overflow: hidden;
+}
+
+.storm-tracker-icon{
+  position: absolute;
+  bottom: 0;
+  height: 3.5vmax;
+  z-index: 10;
+  transition: left 5s ease;
+
+}
+
+.storm-tracker-screen{
+  background-color: rgba(128, 0, 128, 0.5);
+  background-image: url('/images/storm-background.gif');
+  opacity: 75%;
+  position: absolute;
+  height: 5vmax;
+  border-right: 2px solid #0000FE;
+  left: 0;
+  animation: animatedBackground 10s linear infinite reverse;
+  transition: width 1s linear;
+}
+
+.map {
+  position: absolute;
+  transform-origin: center center;
+  margin: auto;
+  width: 500%;
+  transition: left 5s ease;
+}
+
+.weapon-image{
+  width:100%;
+  height:100%;
+}
+
+.visual-container {
+  background-color: #031529;
+  position: relative;
+  height: 19vmax;
+  width: 100%;
+  border-radius: 5px;
+  z-index: 5;
+  overflow: hidden;
+
+}
+
+#match-info-container{
+  position: relative;
+  width: auto;
+  text-align: center;
+  height: 3vmax;
+}
+
+.match-info-section{
+  padding-left: .5vmax;
+  height: 100%;
+  color: white;
+  text-align: center;
+  font-size: 2.7vmax;
+  text-shadow: 2px 2px 6px #000000;
+  display: inline-block;
+}
+
+.storm-state-icon{
+  /* background-image: url(/images/storm_holding_icon.webp); */
+  /* background-size: contain; */
+  height: 80%;
+}
+
+#player-life-container{
+  position: relative;
+  width: auto;
+  height: 5vmax;
+}
+
+.resource-bar-shield {
+  margin: 3px;
+
+  position: relative;
+  border-radius: 5px;
+  
+  width: 95%;
+  height: 30%;
+  left: 2%;
+  background-color: rgba(0, 0, 0, 0.5);
+  transform: skewX(-20deg);
+}
+
+.resource-bar-shield-fill {
+  background-color: #17BEBB;
+  transition: all 0.5s ease;
+}
+
+.resource-bar-health {
+  margin: 3px;
+  border-radius: 5px;
+
+  width: 95%;
+  left: 0.5%;
+  position: relative;
+  height: 70%;
+  left: 0%;
+  background-color: rgba(0, 0, 0, 0.5);
+  transform: skewX(-20deg);
+}
+
+.resource-bar-health-fill {
+  border-radius: 5px;
+
+  background-color: #76B041;
+  transition: all 0.5s ease;
+}
+
+.items-container{
+  position: relative;
+  width: 100%;
+  text-align: center;
+  margin: auto;
+  /* height: 10vmin; */
+  display: inline-block;
+}
+
+
+.inventory-slot{
+  position: relative;
+  border: 0.5vmin solid rgba(255, 255, 255, 0.3);
+  display: float;
+  width: 20vmin;
+  height: 20vmin;
+  font-size: 22px;
+  text-align: center;
+  color: white;
+  vertical-align: center;
+  text-shadow: 2px 2px 6px #000000;
+  overflow: hidden;
+  margin: 1vmin;
+  display: inline-block;
+
+}
+
+.puzzle-container {
+  background-image: url('https://static.wikia.nocookie.net/fortnite/images/4/47/Epic_-_Rarity_-_Fortnite.png');
+  background-size: cover;
+
+  position: relative;
+  display: block;
+  border-radius: 1vw;
+  z-index: 10;
+  overflow: hidden;
+  
+  text-align: center;
+
+  min-height: 50vmax;
+  max-height: 100vmin;
+
+  min-width: 1vmax;
+  max-width: 100vmax;
+
+  margin: auto;
+
+  outline: 1px solid rgb(0, 0, 0);
+  transition: outline 0.2s ease;
+
+}
+
+.locked {
+  outline: 5px solid rgb(204, 0, 0);
+}
+
+
+.select-tile {
+  filter: drop-shadow(5px 5px 5px #2E282A);
+  position: absolute;
+  transition: all 0.5s ease;
+  cursor: pointer;
+  z-index: -50;
+  max-width: 14%;
+}
+
+.select-tile img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 50%;
+  /*background-color: orange;*/
+}
+
+
+.resource-item-ammo {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  font-size: 16px;
+  text-align: center;
+  color: white;
+  vertical-align: bottom;
+  text-shadow: 2px 2px 6px #2E282A;
+  font-family: 'Luckiest Guy', sans-serif;
+  overflow: hidden;
+}
+
+.enemy-avatar-dead{
+  filter: opacity(0) drop-shadow(0 0 0 #2E282A);
+  transition: all 2s ease;
+}
+
+.enemy-avatar, .enemy-avatar-dead{
+  position: absolute;
+  z-index: 10;
+  right: 10vw;
+  /* top: 0%; */
+  bottom: -1vmax;
+  height: 15vmax;
+}
+
+.floating-damage-indicator{
+  font-family: 'Luckiest Guy', sans-serif;
+  color: #FFC914;
+  font-size: 40px;
+  position: absolute;
+  z-index: 100;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: black;
+  transition: all 2s ease;
+}
+
+.weapon-container{
+  background-image: url(  https://static.wikia.nocookie.net/fortnite/images/7/7f/Common_-_Rarity_Background_-_Fortnite.png);
+  background-color: rgba(169, 185, 72, 0.9);
+  background-size: cover;
+  /* position: relative; */
+  /* display: float; */
+  /* width: 10vmin; */
+  /* height: 10vmin; */
+  font-size: 22px;
+  text-align: center;
+  color: white;
+  /* vertical-align: center; */
+  /* text-shadow: 2px 2px 6px #000000; */
+  /* font-family: 'Luckiest Guy', sans-serif; */
+  /* overflow: hidden; */
+  /* margin: 5px; */
+  /* display: inline-block; */
+
+}
+
+#backgroundFill {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background-color: #E4572E; /* Initial color */
+  opacity: 50%;
+  transition: height 1s ease; /* Adjust the duration as needed */
+}
