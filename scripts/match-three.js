@@ -48,6 +48,7 @@ export class MatchThreeGame {
     transitioningTiles = [];
     swappedTiles = undefined;
     turnedinTiles = [];
+    discardTiles = [];
     errorType = new TileType('overflow', './images/tiles/junk.png', '#000000', (tile) => { return false; });
     tileBag;
     get inputAllowed() {
@@ -70,6 +71,7 @@ export class MatchThreeGame {
     }
     constructor(rows, colunms, container, tileTypes) {
         this.tileBag = tileTypes;
+        shuffleArray(this.tileBag);
         //this.tileTypes = tileTypes;
         this._container = container;
         this._rows = rows;
@@ -108,27 +110,26 @@ export class MatchThreeGame {
     }
     PullFromTileBag = () => {
         if (this.tileBag.length === 0) {
-            console.warn("Tile bag empty!");
-            return this.errorType; // If the array is empty, return undefined
+            //if (this.discardTiles.length < (this.rows * this.columns) * .15){
+            //if (this.discardTiles.length < 9){
+            if (this.discardTiles.length === 0 || this.discardTiles.every(t => t == this.discardTiles[0])) {
+                console.warn("Tile bag empty!");
+                return this.errorType; // If the array is empty, return undefined
+            }
+            else {
+                console.info('Shuffling Discard Bag');
+                this.tileBag = this.discardTiles;
+                shuffleArray(this.tileBag);
+                this.discardTiles = [];
+            }
         }
-        shuffleArray(this.tileBag);
         return this.tileBag.pop();
         //return this.removeRandomElement(this.tileBag) as TileType;
     };
     ReturnToBag = (type) => {
         if (type.name == 'overflow')
             return;
-        this.tileBag.push(type);
-        shuffleArray(this.tileBag);
-    };
-    removeRandomElement = (arr) => {
-        if (arr.length === 0) {
-            console.warn("Tile bag empty!");
-            return this.errorType; // If the array is empty, return undefined
-        }
-        const randomIndex = Math.floor(Math.random() * arr.length);
-        const removedElement = arr.splice(randomIndex, 1)[0];
-        return removedElement;
+        this.discardTiles.push(type);
     };
     Reset = () => {
         this.combo = 1;
@@ -187,7 +188,7 @@ export class MatchThreeGame {
             this.onTileTurnIn.trigger({ tileType: tempTiles[0].type, tileCount: tempTiles.filter((t) => t.type.name === tempTiles[0].type.name).length + 1, combo: this.combo });
             tempTiles = tempTiles.filter((t) => t.type.name !== tempTiles[0].type.name);
         }
-        //this.removedTiles.forEach(t => {this.ReturnToBag(t.type)})
+        this.removedTiles.forEach(t => { this.ReturnToBag(t.type); });
         this.removedTiles = [];
         this.combo++;
     };
@@ -324,7 +325,7 @@ export class Tile {
         }
     };
     Destroy = () => {
-        this.game.ReturnToBag(this.type);
+        //this.game.ReturnToBag(this.type);
         this.game.CheckBoard.unsubscribe(this.Solve);
         this.game.UpdateBoard.unsubscribe(this.Update);
         this.game.unregisterTransition(this);
