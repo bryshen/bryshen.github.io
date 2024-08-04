@@ -1,0 +1,38 @@
+[
+    {
+        "name": "Imp",
+        "img": "imp.png",
+        "level": 1,
+        "health": 10
+    },
+    {
+        "name": "Luchador",
+        "img": "luchador.png",
+        "level": 1,
+        "health": 10
+    },
+    {
+        "name": "Spiked Imp",
+        "img": "spiked_imp.png",
+        "level": 1,
+        "health": 10
+    },
+    {
+        "name": "Genie",
+        "img": "genie.png",
+        "level": 1,
+        "health": 10
+    },
+    {
+        "name": "Son of Man",
+        "img": "son_of_man.png",
+        "level": 1,
+        "health": 10
+    },
+    {
+        "name": "Scream",
+        "img": "scream.png",
+        "level": 1,
+        "health": 10
+    }
+]

@@ -9,6 +9,7 @@ body {
   background-color: #2E282A;
   /*background-image: url('https://static.wikia.nocookie.net/fortnite/images/2/2a/Legendary_-_Rarity_-_Fortnite.png'); */
   background-size: cover;
+  margin: 0;
 }
 
 #container{
@@ -19,9 +20,12 @@ body {
 }
 
 div {
-  /*user-select: none;*/
   user-select: none;
   -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 img {

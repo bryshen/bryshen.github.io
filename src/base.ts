@@ -8,19 +8,20 @@ import {
     getDefaultWeapon
 } from './weapons.js';
 
+//import * as enemies from '../data/enemies.json';
 
 import { Entity, Player, PlayerEntity, Resource } from './entity.js';
 import { GameSession } from './gamesession.js';
 
 const mapSource: string = './images/map.jpg';
+
+
+//console.log(enemies);
+//const costumeImages: string[] = enemies.map((e: any) => `../images/enemies/${e.img}`);
 const costumeImages: string[] = [
-    './images/enemies/son_of_man.png',
-    './images/enemies/scream.png',
-    './images/enemies/luchador.png',
-    './images/enemies/imp.png',
-    './images/enemies/genie.png',
-    './images/enemies/spiked_imp.png'
+    './images/enemies/imp.png'
 ];
+console.log(costumeImages);
 
 let health: TileType = new TileType('health', './images/tiles/heal.png', '#76B041');
 let shield: TileType = new TileType('shield', './images/tiles/shield.png', '#17BEBB');
