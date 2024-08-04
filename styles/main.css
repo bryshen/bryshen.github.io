@@ -20,12 +20,17 @@ body {
 }
 
 div {
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
+  -ms-user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
-  -ms-user-select: none;
+  user-select: none;
+}
+
+@supports (-webkit-tap-highlight-color: transparent) {
+  div {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
 }
 
 img {
