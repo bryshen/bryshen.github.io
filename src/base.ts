@@ -14,7 +14,12 @@ import { GameSession } from './gamesession.js';
 
 const mapSource: string = './images/map.jpg';
 const costumeImages: string[] = [
-    './images/zombies/001.png'
+    './images/enemies/son_of_man.png',
+    './images/enemies/scream.png',
+    './images/enemies/luchador.png',
+    './images/enemies/imp.png',
+    './images/enemies/genie.png',
+    './images/enemies/spiked_imp.png'
 ];
 
 let health: TileType = new TileType('health', './images/tiles/heal.png', '#76B041');
@@ -51,7 +56,7 @@ document.addEventListener("keydown", (event) => {
     }
 })
 
-let player  : PlayerEntity = new PlayerEntity("Fuckface", 200);
+let player  : PlayerEntity = new PlayerEntity("Player", 200);
 
 
 function startGame(): void {
@@ -213,7 +218,7 @@ function addResourceBar(resource: Resource, container: HTMLElement): void {
 function turnInTile(tileType : TileType, count : number, combo : number) {
     console.log("Turning in " + tileType.name);
     switch (tileType.name) {
-      case 'health':
+    case 'health':
         session.localPlayer.health.changeValue(2 * count * combo);
         break;
     case 'shield':

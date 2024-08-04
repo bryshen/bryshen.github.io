@@ -4,7 +4,12 @@ import { Player, PlayerEntity } from './entity.js';
 import { GameSession } from './gamesession.js';
 const mapSource = './images/map.jpg';
 const costumeImages = [
-    './images/zombies/001.png'
+    './images/enemies/son_of_man.png',
+    './images/enemies/scream.png',
+    './images/enemies/luchador.png',
+    './images/enemies/imp.png',
+    './images/enemies/genie.png',
+    './images/enemies/spiked_imp.png'
 ];
 let health = new TileType('health', './images/tiles/heal.png', '#76B041');
 let shield = new TileType('shield', './images/tiles/shield.png', '#17BEBB');
@@ -29,7 +34,7 @@ document.addEventListener("keydown", (event) => {
         match3Game.Reset();
     }
 });
-let player = new PlayerEntity("Fuckface", 200);
+let player = new PlayerEntity("Player", 200);
 function startGame() {
     console.log("Start Game!");
     session = new GameSession();
